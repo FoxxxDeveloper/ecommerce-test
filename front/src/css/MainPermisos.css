@@ -1,0 +1,23 @@
+
+.cajitaLinda{
+    width: 50vw;
+    border-radius: 20px;
+    box-shadow: 0px 15px 24px 0px black;
+    background-color: rgb(168, 168, 168);
+}
+
+
+
+ .hrOrange{
+    color: rgb(0, 0, 0);
+ }
+
+
+ .textos{
+    color: #000
+ }
+
+ .tituloPermisos{
+   margin-top: 12px !important;
+   color: rgb(0, 0, 0) !important;
+ }

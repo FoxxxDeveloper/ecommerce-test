@@ -1,0 +1,116 @@
+  .textoVenta{
+  font-size: 8vh;
+}
+.naranjita{
+  color: rgb(253, 101, 0) !important;
+ }
+ .bgNaranja{
+  background-color: rgb(253, 101, 0) !important;
+ }
+
+ .control-masivo-container {
+  margin-top: 50px;
+  padding: 20px;
+  background-color: #1c1c1c;
+  border: 2px solid #FF5733;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.control-masivo-title {
+  color: #FF5733;
+  margin-bottom: 10px;
+}
+
+.control-masivo-subtitle {
+  color: #fff;
+  margin-bottom: 30px;
+  font-size: 1rem;
+}
+
+.contenedorBotonesss {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.contenedorBotonesss .btn-dark {
+  background-color: #FF5733;
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 1rem;
+}
+
+.contenedorBotonesss .btn-dark:hover {
+  background-color: #e14f28;
+}
+
+@media (max-width: 768px) {
+  .control-masivo-container {
+      padding: 15px;
+  }
+
+  .contenedorBotones {
+      flex-direction: column;
+      gap: 15px;
+  }
+
+  .contenedorBotones .btn-dark {
+      width: 100%;
+      padding: 12px;
+  }
+}
+
+
+.codigo{
+  background-color: rgb(117, 117, 117) !important;
+  color: rgb(0, 0, 0) !important;
+  }
+
+.codigo::placeholder{
+  color: rgb(0, 0, 0) !important;
+}
+
+ .gradient-button2 {
+  background-color: #50ac05;
+  border: none;
+  transition: 0.3s all ease;
+  box-shadow: 0px 5px 20px 0 #000000;
+  border: 1px solid #fff;
+}
+
+.gradient-button2:hover{
+  background-color: #367206;
+  border: none;
+  transform: translateY(-10px);
+  box-shadow: 0px 15px 20px 0 #000000;
+}
+
+.contenedorBotones {
+display: flex;
+flex-wrap: wrap;
+justify-content: start;
+gap: 30px;
+}
+
+
+
+.horizontal-list {
+  display: flex;
+}
+
+.horizontal-list div {
+  margin-right: 4px; 
+}
+
+
+
+
+@media screen and (max-width: 800px) {
+
+  .textoVenta{
+    font-size: 5vh;
+  }
+}

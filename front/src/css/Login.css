@@ -1,0 +1,98 @@
+/* ---------- SIGN IN ---------- */
+#shopName 
+{
+    font-size: 20px; 
+    font-family: 'Lato', sans-serif;
+    text-align: center;
+    filter: drop-shadow(10px 10px 15px  rgb(0, 0, 0));
+    
+}
+#shopName a
+{
+    text-decoration: none;
+    color: rgb(29, 29, 29);
+}
+#shopName b
+{
+    font-weight: 900;
+    color: black !important;
+
+
+}
+#shopName span
+{
+   color: rgb(253, 101, 0);
+   letter-spacing: 3px;
+   text-shadow: 2px 2px 5px rgb(0, 0, 0);
+   
+}
+.btnIng{
+  transition: 0.3s all ease;
+}
+.btnIng:hover{
+  transform: translateY(-3px);
+  box-shadow: 0px 10px 5px 0px #242424 !important;
+}
+
+.imgLogo{
+    filter: drop-shadow(10px 10px 15px  rgb(0, 0, 0));
+}
+.formLogin{
+    box-shadow: 0px 20px 15px 0px #000000 !important;
+    background-color: rgba(253, 101, 0, 0.411);
+    color:white;
+}
+.fondoLogin{
+    background-image:linear-gradient( rgba(0, 0, 0, .8), rgba(49, 48, 48, 0.7)), url("../assets/background.webp");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    height: 100vh;
+    display: flex;
+}
+
+.sign-in__wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 93.33vh;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+  }
+  
+  .sign-in__backdrop {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+  
+  .sign-in__wrapper form {
+    width: 24rem;
+    max-width: 90%;
+    z-index: 1;
+    animation: showSignInForm 1s;
+  }
+  
+  .sign-in__wrapper form img {
+    width: 4rem;
+  }
+  
+  @keyframes showSignInForm {
+    0%,
+    30% {
+      transform: translate(0, -150%);
+    }
+    70%,
+    90% {
+      transform: translate(0, 1rem);
+    }
+    80%,
+    100% {
+      transform: translate(0, 0);
+    }
+  }
+  

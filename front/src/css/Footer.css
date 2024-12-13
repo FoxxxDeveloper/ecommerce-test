@@ -1,0 +1,52 @@
+/* Añadir una tipografía moderna */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+#footer {
+    width: 100%;
+    background-color: #282828;
+    color: #e0e0e0;
+    padding: 10px 0;
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px 20px;
+}
+
+.footer-text {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    align-items: center;
+    flex-wrap: wrap;
+    font-weight: 400;
+}
+
+.footer-text a {
+    color: #e0e0e0;
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.3s ease;
+    font-size: 16px;
+}
+
+.footer-text a:hover {
+    color: #fd6500;
+    transform: scale(1.05);
+}
+
+.footer-text a::after {
+    content: "";
+    display: block;
+    background: #fd6500;
+    height: 2px;
+    width: 0;
+    transition: width 0.3s ease;
+}
+
+.footer-text a:hover::after {
+    width: 100%;
+}

@@ -1,0 +1,9 @@
+.total-compra{
+    font-size: 1.1rem; 
+    font-weight: bold; 
+    color: #FD6500; 
+    padding: 10px;  
+  }
+  .body {
+    height: 100vh !important;
+  }

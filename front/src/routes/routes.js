@@ -1,0 +1,22 @@
+export const login = "/admin"
+export const categorias = "/categorias"
+export const clientes = "/clientes"
+export const codigobarra = "/codigobarra"
+export const cuentacorriente = "/cuentacorriente"
+export const detallecompra = "/detallecompra"
+export const detalleventa = "/detalleventa"
+export const finanzas = "/finanzas"
+export const metodopago = "/metodopago"
+export const permisos = "/permisos"
+export const productos = "/productos"
+export const proveedores = "/proveedores"
+export const ventas = "/ventas"
+export const compras = "/compras"
+export const reportes = "/reportes"
+export const usuarios = "/usuarios"
+export const paquetes = "/paquetes"
+
+
+
+export const loginCliente = "/"
+export const cuentaCliente = "/CuentaCliente"

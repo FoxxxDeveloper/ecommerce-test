@@ -1,0 +1,682 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap');
+
+
+
+#root {
+  /* max-width: 1280px; */
+  margin: 0 auto;
+  /* padding: 2rem; */
+  text-align: center;
+  width: 100%;
+  background-color: #0e0e0e;
+}
+
+
+.navb{
+  background-color: #000000 !important;
+}
+.naranjita{
+ color: rgb(253, 101, 0) !important;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.bg-curso {
+  background-color: #8540f5 !important;
+}
+
+.cabeceraTabla{
+  background-color: #8540f5 !important;
+}
+
+/* CORTE */
+
+.corte {
+  text-align: start;
+  background-color: rgb(42, 153, 27);
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 56px; 
+}
+
+.h3-corte{
+  color: white;
+  margin-left: 10px;
+}
+
+.h3{
+  text-align: start;
+  margin-top: 10px;
+}
+
+
+.table-container {
+  max-width: 600px; 
+  margin-left: 0; 
+}
+
+ 
+.content-wrapper {
+  display: flex;
+  overflow-x: auto;
+  margin-bottom: -17px;
+  max-width: 100%;
+} 
+
+.sales-container {
+  flex: 1;
+  margin-right: 20px; 
+} 
+
+.clients-container {
+  flex: 1;
+  margin-top: 1px;
+} 
+
+/* .calendario{
+  display: flex;
+  flex-direction: column; 
+  align-items: start; 
+  width: 400px;
+  left: 0;
+  margin: auto;
+  align-content: start;
+} */
+
+.btn-corte{
+  width: 200px;
+  margin-top: 10px;
+}
+
+.h3-clientes{
+  color: #fff;
+  font-family:"Montserrat", sans-serif;
+  letter-spacing: 1px;
+}
+/* Estilos para el botón del DatePicker */
+.btn-corte {
+  margin-left: 10px; /* Espaciado a la izquierda */
+  padding: 10px 20px; /* Espaciado interno */
+  font-size: 16px; /* Tamaño de la fuente */
+  background-color: #fd6500; /* Color de fondo del botón */
+  color: #fff; /* Color del texto */
+  border: none; /* Sin borde */
+  border-radius: 4px; /* Bordes redondeados */
+  cursor: pointer; /* Cursor al pasar sobre el botón */
+  transition: background-color 0.3s ease;
+}
+
+.btn-corte2 {
+  margin-left: 10px; /* Espaciado a la izquierda */
+  margin-top: 10px; /* Espaciado a la izquierda */
+  padding: 10px 20px; /* Espaciado interno */
+  font-size: 16px; /* Tamaño de la fuente */
+  background-color: #fd6500; /* Color de fondo del botón */
+  color: #fff; /* Color del texto */
+  border: none; /* Sin borde */
+  border-radius: 4px; /* Bordes redondeados */
+  cursor: pointer; /* Cursor al pasar sobre el botón */
+  transition: background-color 0.3s ease;
+}
+.btn-corte:hover {
+  background-color: #fd6500; /* Cambio de color al pasar sobre el botón */
+}
+.btn-corte2:hover{
+  background-color: #fd6500;
+}
+
+
+
+
+
+
+.btn-opciones-venta{
+  padding: 10px 20px;
+  background-color: #0979b0!important;
+  border: none !important;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease !important;
+}
+
+.btn-opciones-venta:hover{
+  background-color: rgb(25, 62, 122) !important;;
+}
+
+.lbl-corte{
+  font-size: 35px;
+}
+
+.btn-imprimir{
+  margin-left: 10px; /* Espaciado a la izquierda */
+  padding: 10px 20px; /* Espaciado interno */
+  font-size: 16px; /* Tamaño de la fuente */
+  background-color: #c24004; /* Color de fondo del botón */
+  color: #fff; /* Color del texto */
+  border: none; /* Sin borde */
+  border-radius: 4px; /* Bordes redondeados */
+  cursor: pointer; /* Cursor al pasar sobre el botón */
+  margin-top: 10px;
+  width: 200px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-imprimir:hover{
+  background-color: #c24004; 
+}
+
+.btn-cerrar-turno{
+  margin-left: 10px; /* Espaciado a la izquierda */
+  padding: 10px 20px; /* Espaciado interno */
+  font-size: 16px; /* Tamaño de la fuente */
+  background-color: #0091a4; /* Color de fondo del botón */
+  color: #fff; /* Color del texto */
+  border: none; /* Sin borde */
+  border-radius: 4px; /* Bordes redondeados */
+  cursor: pointer; /* Cursor al pasar sobre el botón */
+  margin-top: 10px;
+  width: 200px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-cerrar-turno:hover{
+  background-color: #025d69;;
+}
+
+.custom-datepicker-wrapper {
+  width: 200px; /* Ajusta el ancho aquí */
+  margin: 0 auto;
+  margin-top: 10px;
+}
+
+
+.hover-button {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.hover-button:hover {
+  background-color: rgba(49, 46, 46, 0.55);
+  color: white;
+  text-decoration: none; /* Evita la subrayado del enlace al pasar el mouse */
+}
+
+.btn-custom{
+  color: white;
+  background-color: rgb(222, 63, 45);
+}
+
+.datos{
+  padding: 10px;
+  padding-bottom: 0px;
+  background-color:  #fd6500;
+  width:  100%;
+  color: white;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.h3-ventas{
+  text-align: start;
+  background-color: #242424;
+  width: 100%;
+  font-size: 13px;
+  padding: 7px;
+  color: #fff;
+  font-family: Montserrat, sans-serif;
+  animation: slideIn 1s ease-in-out;
+  filter: drop-shadow(5px 5px 10px rgba(253, 101, 0, .623));
+  margin-bottom: 5px;
+}
+
+
+
+ /* .botones-venta{
+ 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+} 
+
+ .botones-venta .btn {
+  color: #fff;
+  border: none;
+  background-color: #0979b0;
+   width: 200px; 
+  margin: 10px;
+
+}  */
+
+.navbar-toggler-icon {  
+   background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'><path stroke='rgba(255, 255, 255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e"); 
+  
+}
+
+.botones-total{
+ 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.botones-total .btn {
+  margin: 10px;
+  width: 200px; 
+}
+
+.btn-reportes{
+  margin-top: 20px;
+  
+}
+
+
+.btn-reporte {
+  padding: 15px;
+  width: 230px;
+  background-color: #312aaf;
+  color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease; /* Transición suave */
+  margin-bottom: 10px;
+  margin-right: 10px;
+  
+}
+.btn-reporte:hover {
+  background-color: #4037e3; /* Color de fondo al pasar el ratón */
+}
+
+.react-datepicker__input-container input {
+  /* Estilos para el input del DatePicker */
+  width: 300px;/* Ajusta el ancho del input al 100% */
+  padding: 10px; /* Ajusta el relleno del input */
+  border-radius: 5px; /* Bordes redondeados */
+  border: 1px solid #ccc; /* Borde del input */
+  font-size: 18px; /* Tamaño de fuente */
+}
+
+.react-datepicker__input-container input:focus {
+  /* Estilos para el input cuando está enfocado */
+  outline: none; /* Elimina el contorno */
+  border-color: #2a0285; /* Cambia el color del borde al enfocar */
+}
+
+/* Estilos para los números del DatePicker */
+.react-datepicker__day {
+  font-size: 15px; /* Tamaño de fuente de los números */
+}
+
+/* Estilos para el nombre del mes */
+.react-datepicker__current-month {
+  font-size: 18px !important; /* Tamaño de fuente del nombre del mes */
+  color: #312aaf !important; /* Color del texto del nombre del mes */
+}
+
+/* Estilo para los números de la paginación */
+.pagination .page-link {
+  color: black; /* Cambia el color de texto a negro */
+  background-color: white; /* Cambia el fondo a blanco */
+  border-color: #004173; /* Cambia el color del borde */
+}
+
+/* Estilo para el número activo en la paginación */
+.pagination .page-item.active .page-link {
+  color: white; /* Cambia el color de texto a blanco */
+  background-color: #004173; /* Cambia el fondo al color deseado */
+  border-color: #004173; /* Cambia el color del borde */
+}
+
+.custom-table-header th {
+  background-color: #fd6500 !important;
+  color: #fff !important;
+  border: 1px solid rgb(34, 34, 34) !important;
+}
+
+.custom-table td.precio {
+  background-color: #d4efff !important; /* Color pastel claro para la columna de precio */
+}
+
+.custom-table td.precio2 {
+  background-color: #a9f8e3 !important; /* Color pastel claro para la columna de precio */
+}
+
+.custom-table td.precioF {
+  background-color: #ff7373 !important; /* Color pastel claro para la columna de precio */
+}
+
+
+.custom-links {
+  background-color: #222222;
+  padding: 8px; /* Ajuste el espaciado según sea necesario */ 
+  letter-spacing: 1px;
+  font-size: 20px;
+  animation: slideIn 1s ease-in-out;
+}
+
+.custom-links a {
+  color: white; /* Color de letra */
+  margin-right: 15px; /* Ajuste el margen derecho según sea necesario */
+  transition: color 0.3s ease; /* Agrega una transición suave de color */
+}
+
+.custom-links a {
+  display: inline-block;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #fd6500 !important;
+  color: white;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+}
+
+.custom-links a:hover {
+  transform: translateY(-5px);
+}
+
+.container-fluid-custom{
+margin-top: -8px;
+
+}
+
+.custom-modal {
+  max-width: 1500px !important; /* Importante para priorizar estos estilos */
+}
+
+nav{
+  background-color: rgb(46, 46, 46) !important;
+}
+
+#icono-nav {
+  color: #fff;
+  display: none;
+}
+.contenido-header {
+  position:relative;
+  width: 100%;
+  z-index: 100;
+  top: 0;
+}
+.imgg{
+  margin-top: 12px;
+}
+
+/*CSS REPORTES*/
+.datitos{
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.numeroVTD{
+  margin-top: 100px;
+}
+
+.montoPago{
+  margin-top: 150px;
+  margin-bottom: 150px;
+}
+
+.montoDepa{
+  margin-top: 150px;
+  margin-bottom: 150px;
+}
+
+.clienteVenta{
+  margin-top: 100px;
+  margin-bottom: 150px;
+}
+
+.numeroVXE{
+  margin-top: 150px;
+}
+
+.navbar-toggler-icon {  
+  background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'><path stroke='rgba(255, 255, 255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e"); 
+ 
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #215e94, #308ec9);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.btn-jsx {
+  background: rgb(253, 101, 0); /* Color de fondo inicial */
+  border: none;
+  color: white; /* Color del texto */
+  padding: 10px 20px; /* Ajuste del padding para mayor tamaño */
+  font-size: 17px; /* Tamaño de fuente */
+  border-radius: 7px; /* Bordes redondeados */
+  transition: background-color 0.4s ease, border-color 0.4s ease, transform 0.2s ease, box-shadow 0.1s ease;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+  overflow: hidden; /* Oculta el texto desbordado */
+  text-overflow: ellipsis; /* Agrega puntos suspensivos al texto desbordado */
+
+  align-items: center;
+  text-align: center;
+
+}
+
+.btn-jsx2 {
+  align-items: center;
+  text-align: center;
+  background: rgb(253, 101, 0); /* Color de fondo inicial */
+  border: none;
+  color: white !important; /* Color del texto */
+  padding: 10px 20px; /* Ajuste del padding para mayor tamaño */
+  font-size: 17px; /* Tamaño de fuente */
+  border-radius: 7px; /* Bordes redondeados */
+  transition: background-color 0.4s ease, border-color 0.4s ease, transform 0.2s ease, box-shadow 0.1s ease;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+  text-overflow: ellipsis; /* Agrega puntos suspensivos al texto desbordado */
+  display: inline-block; /* Asegura que el tamaño del botón se ajuste al contenido */
+}
+.dropdown-title{
+  color: #fff !important;
+}
+.btn-jsx:hover {
+  filter: brightness(1.3); 
+  transition: filter 0.3s ease;
+}
+
+
+
+.btn-cerrarT{
+  background-color: #b60000a8;
+  border: 2px solid rgba(129, 0, 0, .658);
+  transform: scale(1);
+  box-shadow: 0 4px 8px #0003;
+}
+.btn-cerrarT:hover{
+  background-color: #882e2e; /* Color de fondo al pasar el ratón */
+  border: 2px solid #700808dc; 
+  transform: scale(1.00); /* Efecto de transformación (agrandar) */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra al pasar el ratón */
+}
+
+.textoVenta{
+  font-size: 8vh;
+}
+
+#shopName2 b {
+  font-weight: 800;
+  color: #fff !important;
+}
+
+.contBtns{
+  display: inline-block;
+  height: 8vh;
+
+  box-shadow: 1px 3px 4px 1px rgb(124, 55, 9);
+}
+.btnSubHeader{
+  background-color: rgb(124, 55, 9);
+  color: white;
+  border-color: white;
+  transition: all 0.3s ease;
+}
+.btnSubHeader:hover{
+  background-color:  rgb(124, 55, 9);
+  border: none;
+  transform: translateY(-10px);
+  box-shadow: 0px 15px 20px 0 #000000;
+
+}
+
+@media screen and (max-width: 800px) {
+  /* kl */
+   nav{
+       display: none;
+      
+   }
+   nav.responsive {
+    margin-top: -24px;
+       display: block;
+       background-color: rgb(46, 46, 46) !important;
+       width: 100%;
+       position: absolute;
+       top: 48px;
+       left: 0;
+       padding: 10px 0;
+   }
+   nav.responsive ul {
+       margin-top: 30px;
+       display: block !important;
+       text-align: center;
+   }
+   nav.responsive ul li {
+       margin: 5px 0;
+   }
+   #icono-nav {
+       display: block;
+       
+   }
+   .imgg{
+    margin-top: -12px;
+  }
+  .textoVenta{
+    font-size: 5vh;
+  }
+  .contBtns{
+    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+    display: inline-block; /* Asegura que el tamaño del botón se ajuste al contenido */
+    height: 30vh;
+    background-color: #0b0c0c;
+    box-shadow: 0px 10px 15px 0  rgba(253, 101, 0, .623);
+  }
+}
+
+.custom-table-header .paquete-header {
+  background-color: rgb(141, 25, 21) !important;
+}
+
+
+
+.nav-dropdown .dropdown-item-custom {
+  background-color: #f8f9fa !important; 
+}
+
+.nav-dropdown .dropdown-item-custom:hover {
+  background-color: #e9ecef !important; 
+}
+
+
+
+.dropdown-menu{
+  background-color: #343a40;
+}
+
+.dropdown-item:hover{
+  background-color: #343a40 !important;
+}  
+
+.gradient-button {
+  background-color: #264968;
+  border: 1px solid #fff;
+  transition: 0.3s all ease;
+
+}
+
+.gradient-button:hover{
+  background-color: #4788c0;
+  border: none;
+  transform: translateY(-10px);
+  box-shadow: 0px 15px 20px 0 #000000;
+
+}
+
+.gradient-button2 {
+  background-color: #50ac05;
+  border: none;
+  transition: 0.3s all ease;
+  box-shadow: 0px 5px 20px 0 #000000;
+  border: 1px solid #fff;
+}
+
+.gradient-button2:hover{
+  background-color: #367206;
+  border: none;
+  transform: translateY(-10px);
+  box-shadow: 0px 15px 20px 0 #000000;
+}
+
+
+.total-compra{
+  font-size: 1.5rem; 
+  font-weight: bold; 
+  color: #FD6500; 
+  background-color: #f8f9fa; 
+  padding: 10px; 
+  border-radius: 5px;
+  display: inline-block; 
+}
