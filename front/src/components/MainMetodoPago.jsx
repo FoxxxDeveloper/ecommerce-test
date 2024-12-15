@@ -207,7 +207,7 @@ useEffect(()=>{
 
 
   return (
-   <>
+   <div className='body'>
 <h2 className='mt-3'><strong>ADMINISTRACION DE METODOS DE  PAGOS</strong></h2>
 <h4 className='naranja'>Listado y gestión de metodos de pago</h4>
 
@@ -296,7 +296,7 @@ useEffect(()=>{
 
 
 
-  </>
+  </div>
 
   )
 }

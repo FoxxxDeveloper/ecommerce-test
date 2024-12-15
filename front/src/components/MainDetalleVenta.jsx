@@ -272,7 +272,7 @@ const DescargarPDF = () => {
 
 
 return (
-  <>
+  <div className='body'>
     <br />
     <div className='h3-ventas'>
       <h2 style={{ color: '#000' }}><strong>DETALLE VENTAS</strong></h2>
@@ -419,7 +419,7 @@ return (
         </>
       )}
     </div>
-  </>
+  </div>
 );
 
 }

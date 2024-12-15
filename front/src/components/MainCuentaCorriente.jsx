@@ -464,7 +464,7 @@ console.log(productoss[0])
   },[])
 
   return (
-    <>
+    <div className='body'>
     <h2 className="mt-3"><strong>CUENTAS CORRIENTES</strong></h2>
     <h4 className="naranja">Administra todas las deudas de tus clientes</h4><br />
 
@@ -772,7 +772,7 @@ console.log(productoss[0])
           <Button variant='danger' onClick={handleCloseModalClientes}>CERRAR</Button>
         </Modal.Footer>
       </Modal>
-    </>
+    </div>
   )
 }
 

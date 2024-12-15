@@ -5,5 +5,42 @@
     padding: 10px;  
   }
   .body {
-    height: 100vh !important;
+    min-height: 100vh !important;
   }
+  .horizontal-card {
+    width: 90%;
+    max-width: 600px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  }
+  .horizontal-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+  }
+  .card-body {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+  }
+  .card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f8ff;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+  }
+  .card-title {
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+  .card-text {
+    margin: 0;
+    color: #555;
+  }
+  

@@ -1,124 +1,45 @@
-const VentasGuardadas = [
-  {
-    idVentaGuarda: 1,
-    listaParaVender: [
-      {
-        TipoProducto: 1,
-        Nombre: "Cerveza Heineken",
-        Codigo: "PRD005",
-        PrecioVenta: 120,
-        SubTotal: 120,
-        IdProducto: 9
-      },
-      {
-        TipoProducto: 1,
-        Nombre: "Cerveza Quilmes",
-        Codigo: "PRD012",
-        PrecioVenta: 100,
-        SubTotal: 100,
-        IdProducto: 16
-      },
-      {
-        TipoProducto: 1,
-        Nombre: "Cerveza Budweiser",
-        Codigo: "PRD025",
-        PrecioVenta: 120,
-        SubTotal: 120,
-        IdProducto: 29
-      },
-      {
-        TipoProducto: 1,
-        Nombre: "Cerveza Stella Artois",
-        Codigo: "PRD033",
-        PrecioVenta: 130,
-        SubTotal: 130,
-        IdProducto: 37
-      },
-      {
-        TipoProducto: 2,
-        Nombre: "Paquete de pruebas",
-        Codigo: "PAQUETE",
-        PrecioVenta: 150,
-        SubTotal: 150,
-        IdPaquete: 3
-      },
-      {
-        TipoProducto: 2,
-        Nombre: "asda",
-        Codigo: "PAQUETE",
-        PrecioVenta: 123,
-        SubTotal: 123,
-        IdPaquete: 14
-      }
-    ],
-    cantidades: {
-      "9": 2,
-      "16": 3,
-      "29": 5,
-      "37": 8,
-      "3": 12, // Nota: Cambié 'paquete_3' a '3' para coincidir con IdPaquete
-      "14": 9 // Nota: Cambié 'paquete_14' a '14' para coincidir con IdPaquete
-    }
-  },
-  {
-    idVentaGuarda: 2,
-    listaParaVender: [
-      {
-        TipoProducto: 1,
-        Nombre: "Cerveza Heineken",
-        Codigo: "PRD005",
-        PrecioVenta: 120,
-        SubTotal: 120,
-        IdProducto: 9
-      },
-      {
-        TipoProducto: 1,
-        Nombre: "Cerveza Quilmes",
-        Codigo: "PRD012",
-        PrecioVenta: 100,
-        SubTotal: 100,
-        IdProducto: 16
-      },
-      {
-        TipoProducto: 1,
-        Nombre: "Cerveza Budweiser",
-        Codigo: "PRD025",
-        PrecioVenta: 120,
-        SubTotal: 120,
-        IdProducto: 29
-      },
-      {
-        TipoProducto: 1,
-        Nombre: "Cerveza Stella Artois",
-        Codigo: "PRD033",
-        PrecioVenta: 130,
-        SubTotal: 130,
-        IdProducto: 37
-      },
-      {
-        TipoProducto: 2,
-        Nombre: "Paquete de pruebas",
-        Codigo: "PAQUETE",
-        PrecioVenta: 150,
-        SubTotal: 150,
-        IdPaquete: 3
-      },
-      {
-        TipoProducto: 2,
-        Nombre: "asda",
-        Codigo: "PAQUETE",
-        PrecioVenta: 123,
-        SubTotal: 123,
-        IdPaquete: 14
-      }
-    ],
-    cantidades: {
-      "9": 2,
-      "16": 3,
-      "29": 5,
-      "37": 8,
-      "3": 12, // Nota: Cambié 'paquete_3' a '3' para coincidir con IdPaquete
-      "14": 9 // Nota: Cambié 'paquete_14' a '14' para coincidir con IdPaquete
-    }
-  }
-];
+Agregue columna Foto en PRODUCTO
+agregue columna Clave en CLIENTE
+Agregue columna Estado en VENTA
+Estados de una venta {0: Pendiente, 1:Aprobada , 2: Rechazada}
+
+Agregué tabla DIRECCION
+Agregué tabla reseña
+Agregue tabla ENTREGA
+Agregue tabla FAVORITO
+
+-- PLANTEAR CUPONES DE DESCUENTO 
+/* 
+
+CREATE TABLE CUPON (
+    IdCupon INT AUTO_INCREMENT,
+    Codigo VARCHAR(50) UNIQUE,
+    Descuento DECIMAL(5,2),
+    FechaInicio DATETIME,
+    FechaExpiracion DATETIME,
+    Estado TINYINT,
+    PRIMARY KEY (IdCupon)
+);
+
+*/
+
+
+/* plantear historico de stock
+
+CREATE TABLE HISTORICO_STOCK (
+    IdHistoricoStock INT AUTO_INCREMENT,
+    IdProducto INT,
+    IdSucursal INT,
+    CantidadCambio DECIMAL(10,2),
+    TipoCambio ENUM('Venta', 'Devolución', 'Ajuste', 'Compra'),
+    FechaRegistro DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (IdHistoricoStock),
+    KEY fkv_historico_stock_producto (IdProducto),
+    CONSTRAINT fkv_historico_stock_producto FOREIGN KEY (IdProducto) REFERENCES PRODUCTO (IdProducto),
+    KEY fkv_historico_stock_sucursal (IdSucursal),
+    CONSTRAINT fkv_historico_stock_sucursal FOREIGN KEY (IdSucursal) REFERENCES SUCURSAL (IdSucursal)
+);
+
+
+*/
+/*Plantear si hace falta una tabla contacto para dejar en la página*/ 

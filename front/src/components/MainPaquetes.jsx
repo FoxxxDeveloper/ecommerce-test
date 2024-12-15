@@ -343,7 +343,7 @@ const MainPaquetes = () => {
 
 
   return (
-       <>
+       <div className='body'>
             <h2 style={{color:'#000'}}><strong>GESTION PAQUETES</strong></h2>
             <h4 className='naranja'>Gestiona todos los paquetes de tu negocio</h4> <br /> 
 
@@ -582,7 +582,7 @@ const MainPaquetes = () => {
           </Modal>
 
 
-    </>
+    </div>
   )
 }
 

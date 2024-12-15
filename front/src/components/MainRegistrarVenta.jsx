@@ -7,7 +7,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'
 import es from 'date-fns/locale/es';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAddressCard, faBarcode, faBoxOpen, faCartShopping, faCashRegister, faCheck, faDollar, faFloppyDisk, faMagnifyingGlass, faTrash,  } from "@fortawesome/free-solid-svg-icons";
+import { faAddressCard, faBarcode, faBoxOpen, faCartShopping, faCashRegister, faCheck, faDollar, faDollyBox, faFloppyDisk, faMagnifyingGlass, faMapMarkedAlt, faTrash, faTruckFast,  } from "@fortawesome/free-solid-svg-icons";
 import { MDBInputGroup } from 'mdb-react-ui-kit';
 import  { useState,useContext,useEffect,useRef } from "react";
 import { DataContext } from "../context/DataContext";
@@ -43,6 +43,27 @@ const MainRegistrarVenta = () => {
   const [MontoTotalFinal, setMontoTotalFinal] = useState(0)
   const [MontoPago, setMontoPago] = useState(0)
   const [MetodoPago, setMetodoPago] = useState('Efectivo')
+  const [TipoEntrega, setTipoEntrega] = useState('Retiro en local')
+  const [DireccionSeleccionada, setDireccionSeleccionada] = useState(false);
+  const [DireccionEnvio, setDireccionEnvio] = useState(0);
+  const [Direcciones, setDirecciones] = useState([]);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const handleOpenAddModal = () => {setShowAddModal(true)
+    setShowDireccionModal(false)
+  };
+  const handleCloseAddModal = () => {setShowAddModal(false)
+    handleOpenDireccionModal()
+  };
+
+  const [showDireccionModal, setShowDireccionModal] = useState(false);
+  const handleOpenDireccionModal = () =>{   
+    setShowModalFinalVenta(false)
+    traerDirecciones()
+    setShowDireccionModal(true);} 
+  const handleCloseDireccionModal = () => {setShowDireccionModal(false)
+    setShowModalFinalVenta(true)
+  };
+
   const [ventaSeleccionada, setVentaSeleccionada] = useState();
   const [showModalProductos, setShowModalProductos] = useState(false);
   const [showModalPaquetes, setShowModalPaquetes] = useState(false);
@@ -91,7 +112,51 @@ const MainRegistrarVenta = () => {
     }).catch((error) => {
         console.log('Error al traer los productos', error)
     })
-}
+}  
+const agregarDireccion = (nuevadireccion) => {
+  // Verificar que todos los campos necesarios estén completos
+  if (!nuevadireccion.Provincia || !nuevadireccion.Ciudad || !nuevadireccion.CodigoPostal || !nuevadireccion.Direccion) {
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "Debe llenar todos los campos"
+    });
+    return Promise.reject("Campos incompletos");
+  }
+  if (IdCliente==0) {
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "Debe seleccionar un cliente"
+    });
+    return Promise.reject("Campos incompletos");
+  }
+  return axios.post(`${URL}cliente/registrardireccion?accesstoken=${Token}`, {
+    IdCliente,
+    Provincia: nuevadireccion.Provincia,
+    Ciudad: nuevadireccion.Ciudad,
+    CodigoPostal: nuevadireccion.CodigoPostal,
+    Direccion: nuevadireccion.Direccion,
+    Estado: 1  // El estado por defecto puede ser 1
+  })
+  .then((response) => {
+    const { success, mensaje } = response.data;
+    if (success) {
+      handleOpenDireccionModal()
+      return response.data; // Retornamos los datos de la respuesta si la operación es exitosa
+    } else {
+      // En caso de que no sea exitoso, retornamos un error
+      return Promise.reject(mensaje || "Error al registrar la dirección!");
+    }
+  })
+  .catch((error) => {
+    const errorMessage = error.response && error.response.data ? error.response.data.mensaje : error.message;
+    // Si hay un error, retornamos una promesa rechazada
+    return Promise.reject(errorMessage);
+  });
+};
+
+
 
 
 const traerClientes = () => {
@@ -142,7 +207,45 @@ const traerPaquetes = () => {
 };
 
 
-
+const traerDirecciones = () => {
+      if (IdCliente !== 0) {
+          axios.get(`${URL}cliente/obtenerdirecciones`, {
+              params: {
+                  accesstoken: Token,
+                  IdCliente
+              },
+          })
+          .then(response => {
+              if (response.data.success) {
+                const direcciones = response.data.direcciones;
+                  if (direcciones.length > 0) {
+                    setDirecciones(direcciones);
+                } else {
+                  setDirecciones([]);
+                }
+              } else {
+                setDirecciones([]);
+              }
+          })
+          .catch(error => {
+              if (error.response) {
+                  if (error.response.status === 404) {
+                    setDirecciones([]);
+                      Swal.fire({
+                          icon: "error",
+                          title: "Error",
+                          text: "Direcciones no encontradas",
+                          timer: 1500
+                      });
+                  } else {
+                      console.error('Error en la respuesta:', error.response.data);
+                  }
+              } else {
+                  console.error('Error de red:', error.message);
+              }
+          });
+      }
+  };
 
 const guardarVenta = () => {
   if (listaParaVender.length === 0) {
@@ -440,6 +543,9 @@ const eliminarVentaGuardada = (index) => {
     setMontoTotalFinal(0)
     setMontoPago(0)
     setMetodoPago('Efectivo')
+    setTipoEntrega('Retiro en local')
+    setDireccionEnvio({})
+    setDireccionSeleccionada(false)
     setIdCliente(1)
     setClienteElegido("Consumidor Final")
     setListaParaVender([])
@@ -1160,18 +1266,67 @@ const eliminarVentaGuardada = (index) => {
           <FontAwesomeIcon icon={faMagnifyingGlass} size="lg" style={{color: '#fff'}} />
         </Button>
         </MDBInputGroup>
-         
+     <br />
+     <label>Tipo de entrega:</label>
+        <MDBInputGroup className='mb-3' >
+    <span className="input-group-text inputss   ">
+      <FontAwesomeIcon icon={faDollyBox} size="lg" style={{color: '#FD6500'}} />
+    </span>
+    <select aria-label="Estado" className="form-select inputss"  id='estado' value={TipoEntrega} onChange={(e)=>setTipoEntrega(e.target.value)}>   
+                    <option value="Retiro en local">Retiro en local</option>
+                    <option value="Envio">Envio</option>
+    </select>
+    </MDBInputGroup>
           
     <br />
+
+    {TipoEntrega =='Envio' && <>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <Button onClick={handleOpenDireccionModal}>
+          <FontAwesomeIcon icon={faTruckFast} size="lg" style={{color: '#fff'}} /> Seleccionar direccion
+        </Button>
+        </div>
+    </>
+
+    }
+    <br />
+    {DireccionSeleccionada && TipoEntrega == 'Envio' ? (
+      <>
+
+<div className="card horizontal-card shadow-sm">
+            <div className="card-body d-flex align-items-center">
+              <div className="card-icon">
+                <FontAwesomeIcon icon={faMapMarkedAlt} size="2x" style={{ color: "#007bff" }} />
+              </div>
+              <div className="card-info ms-3">
+                <h5 className="card-title">{DireccionEnvio.Direccion}</h5>
+                <p className="card-text mb-1">
+                  <strong>Provincia:</strong> {DireccionEnvio.Provincia}
+                </p>
+                <p className="card-text mb-1">
+                  <strong>Ciudad:</strong> {DireccionEnvio.Ciudad}
+                </p>
+                <p className="card-text">
+                  <strong>Código Postal:</strong> {DireccionEnvio.CodigoPostal}
+                </p>
+              </div>
+            </div>
+          </div>
+  </>
+  ) : null}
     <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <Button 
-        className="btn btn-danger m-2 bgnaranja" 
-        style={{ width: '400px', marginTop: '6px' }}  
-        onClick={FinalizarVenta}
-        >
-       FINALIZAR VENTA
-      </Button>
-    </div>
+      
+  {(TipoEntrega === 'Envio' && DireccionSeleccionada) || TipoEntrega !== 'Envio' ? (
+      <>
+    <Button 
+      className="btn btn-danger m-2 bgnaranja" 
+      style={{ width: '400px', marginTop: '6px' }}  
+      onClick={FinalizarVenta}
+    >
+      FINALIZAR VENTA
+    </Button></>
+  ) : null}
+</div>
        
 
 
@@ -1305,7 +1460,115 @@ const eliminarVentaGuardada = (index) => {
       </Modal>            
 
 
+      <Modal size="lg" show={showDireccionModal} onHide={handleCloseDireccionModal} animation={false}>
+  <Modal.Header closeVariant="white" closeButton>
+    <Modal.Title>Seleccionar Dirección</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    <div className="d-flex flex-column align-items-center gap-4">
+      {Direcciones.length > 0 ? (
+        Direcciones.map((direccion, index) => (
+          <div
+            key={index}
+            className="card horizontal-card shadow-sm"
+            onClick={() => {setDireccionSeleccionada(true)
+              
+              handleCloseDireccionModal()
+              setDireccionEnvio(direccion)
+            }}
+          >
+            <div className="card-body d-flex align-items-center">
+              <div className="card-icon">
+                <FontAwesomeIcon icon={faMapMarkedAlt} size="2x" style={{ color: "#007bff" }} />
+              </div>
+              <div className="card-info ms-3">
+                <h5 className="card-title">{direccion.Direccion}</h5>
+                <p className="card-text mb-1">
+                  <strong>Provincia:</strong> {direccion.Provincia}
+                </p>
+                <p className="card-text mb-1">
+                  <strong>Ciudad:</strong> {direccion.Ciudad}
+                </p>
+                <p className="card-text">
+                  <strong>Código Postal:</strong> {direccion.CodigoPostal}
+                </p>
+              </div>
+            </div>
+          </div>
+        ))
+      ) : (
+        <p className="text-center">No hay direcciones disponibles.</p>
+      )}
+    </div>
+    <div className="mt-4 text-center">
+      <Button variant="primary" onClick={handleOpenAddModal}>
+        Agregar Nueva Dirección
+      </Button>
+    </div>
+  </Modal.Body>
+  <Modal.Footer>
+    <Button variant="danger" onClick={handleCloseDireccionModal}>
+      Cerrar
+    </Button>
+  </Modal.Footer>
+</Modal>
 
+
+      {/* Modal para agregar nueva dirección */}
+      <Modal size="md" show={showAddModal} onHide={handleCloseAddModal} animation={false}>
+  <Modal.Header closeVariant="white" closeButton>
+    <Modal.Title>Agregar Dirección</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    <form
+      onSubmit={async (e) => {
+        e.preventDefault();
+        const nuevaDireccion = {
+          Provincia: e.target.Provincia.value,
+          Ciudad: e.target.Ciudad.value,
+          CodigoPostal: e.target.CodigoPostal.value,
+          Direccion: e.target.Direccion.value,
+        };
+
+        try {
+          await agregarDireccion(nuevaDireccion);
+          handleCloseAddModal();
+        } catch (error) {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: error || "Error al registrar la dirección!",
+          });
+        }
+      }}
+    >
+      <div className="mb-3">
+        <label>Provincia</label>
+        <input className="form-control" name="Provincia" required />
+      </div>
+      <div className="mb-3">
+        <label>Ciudad</label>
+        <input className="form-control" name="Ciudad" required />
+      </div>
+      <div className="mb-3">
+        <label>Código Postal</label>
+        <input className="form-control" name="CodigoPostal" required />
+      </div>
+      <div className="mb-3">
+        <label>Dirección</label>
+        <input className="form-control" name="Direccion" required />
+      </div>
+      <Button type="submit" variant="success">
+        Guardar
+      </Button>
+    </form>
+  </Modal.Body>
+  <Modal.Footer>
+    <Button variant="danger" onClick={handleCloseAddModal}>
+      Cerrar
+    </Button>
+  </Modal.Footer>
+</Modal>
 
 
 

@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Button, Form,ButtonGroup } from 'react-bootstrap';
 import { MDBInputGroup } from 'mdb-react-ui-kit';
 import { faAddressCard, faUser } from '@fortawesome/free-regular-svg-icons';
-import {  faAt, faBan, faMagnifyingGlass, faPencil, faPhone, faPowerOff, faTrash } from '@fortawesome/free-solid-svg-icons';
+import {  faAt, faBan, faLock, faMagnifyingGlass, faPencil, faPhone, faPowerOff, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFloppyDisk } from "@fortawesome/free-regular-svg-icons";
 import { DataContext } from '../context/DataContext.jsx';
@@ -22,6 +22,7 @@ const MainClientes = () => {
   const[IdCliente,setIdCliente] = useState(0);
   const[DNI,setDNI] = useState("");
   const[NombreCompleto,setNombreCompleto]= useState("");
+  const[Clave,setClave]= useState("");
   const [Email, setEmail] = useState("")
   const[Telefono,setTelefono] = useState("");
   const [seleccionarCliente, setSeleccionarCliente] = useState(false)
@@ -55,7 +56,7 @@ axios.get(`${URL}cliente?accesstoken=${Token}`).then((response)=>{
 }
 
   const crearClientes = () => {
-      if (DNI.length === 0 || NombreCompleto.length === 0 || Email.length === 0 || Telefono.length === 0) {
+      if (DNI.length === 0 || Clave.length === 0 ||NombreCompleto.length === 0 || Email.length === 0 || Telefono.length === 0) {
           Swal.fire({
               icon: "error",
               title: "Error",
@@ -64,6 +65,7 @@ axios.get(`${URL}cliente?accesstoken=${Token}`).then((response)=>{
       } else {
           axios.post(`${URL}cliente/registrar?accesstoken=${Token}`, {
               Documento: DNI,
+              Clave:Clave,
               NombreCompleto: NombreCompleto,
               Correo: Email,
               Telefono: Telefono,
@@ -102,7 +104,7 @@ axios.get(`${URL}cliente?accesstoken=${Token}`).then((response)=>{
 
 
   const editarCliente = () => {
-    if (DNI.length === 0 || NombreCompleto.length === 0 || Email.length === 0 || Telefono.length === 0) {
+    if (DNI.length === 0 || NombreCompleto.length === 0|| Clave.length === 0 || Email.length === 0 || Telefono.length === 0) {
         Swal.fire({
             icon: "error",
             title: "Error",
@@ -113,6 +115,7 @@ axios.get(`${URL}cliente?accesstoken=${Token}`).then((response)=>{
             IdCliente: IdCliente,
             Documento: DNI,
             NombreCompleto: NombreCompleto,
+            Clave:Clave,
             Correo: Email,
             Telefono: Telefono,
             Estado: Estado
@@ -201,6 +204,7 @@ setSeleccionarCliente(true)
 setDNI(val.Documento)
 setEmail(val.Correo)
 setNombreCompleto(val.NombreCompleto)
+setClave(val.Clave)
 setTelefono(val.Telefono)
 setIdCliente(val.IdCliente)
 setEstado(val.Estado)
@@ -210,6 +214,7 @@ setSeleccionarCliente(false)
 setDNI('')
 setEmail('')
 setNombreCompleto('')
+setClave('')
 setTelefono('')
 setEstado('')
 }
@@ -220,7 +225,7 @@ useEffect(()=>{
 
 
   return (
-   <>
+   <div className='body'>
 <h2 className='mt-3'><strong>ADMINISTRACION DE CLIENTES</strong></h2>
 <h4 className='naranja'>Listado y gestión de clientes</h4>
 
@@ -233,7 +238,12 @@ useEffect(()=>{
     </span>
       <input className='form-control inputss' type='text' placeholder="DNI"  value={DNI} onChange={(e) => setDNI(e.target.value)}/>
     </MDBInputGroup>
-
+    <MDBInputGroup className='mb-3' >
+    <span className="input-group-text inputss ">
+      <FontAwesomeIcon icon={faLock} size="lg" style={{color: '#FD6500'}} />
+    </span>
+      <input className='form-control inputss' type='password' placeholder="Clave" value={Clave} onChange={(e) => setClave(e.target.value)}/>
+    </MDBInputGroup>
     <MDBInputGroup className='mb-3' >
     <span className="input-group-text inputss ">
       <FontAwesomeIcon icon={faUser} size="lg" style={{color: '#FD6500'}} />
@@ -340,7 +350,7 @@ useEffect(()=>{
 
 
 
-  </>
+  </div>
 
   )
 }

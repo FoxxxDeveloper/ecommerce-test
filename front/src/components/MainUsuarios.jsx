@@ -245,7 +245,7 @@ useEffect(()=>{
 
 
   return (
-   <>
+   <div className='body'>
 <h2 className='mt-3'><strong>ADMINISTRACION DE USUARIOS</strong></h2>
 <h4 className='naranja'>Listado y gestión de usuarios</h4>
 
@@ -386,7 +386,7 @@ useEffect(()=>{
 
 
 
-  </>
+  </div>
 
   )
 }

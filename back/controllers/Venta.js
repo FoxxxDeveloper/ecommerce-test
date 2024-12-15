@@ -2,6 +2,15 @@ const {db} =require("../db/db.js")
 const jwt = require('jsonwebtoken');
 
 const registrar = (req, res) => {
+    let Estado= 0;
+    
+    if(!req.Usuario.IdCliente){
+     Estado = 1;
+    }
+    console.log(Estado)
+
+
+
     let { IdUsuario, IdCliente, TipoDocumento, MontoPago, MontoCambio, MontoTotal, MetodoPago, IdSucursal, DetalleVenta } = req.body;
   
     // Validación de datos
@@ -21,8 +30,8 @@ const registrar = (req, res) => {
     }));
   
     // Llamada al procedimiento almacenado para registrar la venta
-    db.query('CALL sp_RegistrarVenta(?, ?, ?, ?, ?, ?, ?, ?, ?, @p_Resultado, @p_Mensaje)',
-      [IdUsuario, TipoDocumento, IdCliente, MontoPago, MontoCambio, MontoTotal, MetodoPago, IdSucursal, JSON.stringify(detalleVentaConSubTotal)],
+    db.query('CALL sp_RegistrarVenta(?, ?,?, ?, ?, ?, ?, ?, ?, ?, @p_Resultado, @p_Mensaje)',
+      [IdUsuario, TipoDocumento, IdCliente, MontoPago, MontoCambio, MontoTotal, MetodoPago,Estado, IdSucursal, JSON.stringify(detalleVentaConSubTotal)],
       (error, results, fields) => {
           if (error) {
               console.error('Error en el registro de la venta:', error);
@@ -241,6 +250,7 @@ const verDetalle = (req, res) => {
       }
     });
   };
+  
   
 
 

@@ -267,7 +267,7 @@ const traerSucursales = () =>{
 
     
   return (
-    <>
+    <div className='body'>
   <h2 className="mt-3"><strong>REPORTE DE SUCURSAL</strong></h2>
   <h4 className="naranja">Gráficos e información sobre tu negocio</h4>
   <div className='container'>
@@ -500,7 +500,7 @@ const traerSucursales = () =>{
     <h5>No se encontraron datos de ventas por usuario para la fecha seleccionada.</h5>
   )}
 </div>
-</>
+</div>
 
     
   )

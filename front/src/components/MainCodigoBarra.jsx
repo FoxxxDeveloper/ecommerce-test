@@ -198,7 +198,7 @@ const MainCodigoBarra = () => {
 
 
   return (
-       <>
+       <div className='body'>
             <h2 style={{color:'#000'}}><strong>GESTION DE CODIGO DE BARRA</strong></h2>
             <h4 className='naranja'>Crea todos los codigos de barra de tus productos</h4> <br /> 
 
@@ -315,7 +315,7 @@ const MainCodigoBarra = () => {
           </Modal>
 
 
-    </>
+    </div>
   )
 }
 

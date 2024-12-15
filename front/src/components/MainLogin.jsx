@@ -71,7 +71,7 @@ const ObtenerSucursales = () =>{
   },[])
   return (
     <div
-      className="sign-in__wrapper fondoLogin"
+      className="sign-in__wrapper fondoLogin "
       // style={{ backgroundImage: `url(${BackgroundImage})` }}
     >
       

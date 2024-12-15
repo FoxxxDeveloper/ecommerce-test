@@ -124,7 +124,7 @@ const MainPermisos = () => {
 
 
   return (
-    <div>
+    <div className='body'>
     <div >
 
 <div className='h3-ventas'>

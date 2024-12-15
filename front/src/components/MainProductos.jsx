@@ -3,7 +3,7 @@ import  { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { Modal,Button, Form,ButtonGroup } from 'react-bootstrap';
 import { MDBInputGroup } from 'mdb-react-ui-kit';
-import { faClipboard } from '@fortawesome/free-regular-svg-icons';
+import { faClipboard, faImage } from '@fortawesome/free-regular-svg-icons';
 import { faAnglesDown, faAnglesUp, faDollar, faDollyBox, faFileExcel, faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFloppyDisk } from "@fortawesome/free-regular-svg-icons";
@@ -16,7 +16,6 @@ import { faBarcode } from "@fortawesome/free-solid-svg-icons";
 import Swal from 'sweetalert2'
 import Paginacion from '../components/Paginacion';
 import * as XLSX from 'xlsx';
-
 const MainProductos = () => {
 
   const [nombre_producto, setNombre_Producto] = useState('');
@@ -24,6 +23,7 @@ const MainProductos = () => {
   const [precioCompra, setPrecioCompra] = useState('');
   const [Id_producto, setId_Producto] = useState(0);
   const [precioVenta, setPrecioVenta] = useState('');
+  const [foto, setFoto] = useState('');
   const [Id_categoria, setId_categoria] = useState(0);
   const [categorias, setCategorias] = useState([]);
   const [productosCargados, setProductosCargados] = useState([]);
@@ -44,6 +44,19 @@ const MainProductos = () => {
 
   const [idSucursal, setIdSucursal] = useState(IdSucursal)
 
+  const [show, setShow] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleShow = (image) => {
+    setSelectedImage(image);
+    setShow(true);
+  };
+
+  const handleClose = () => {
+    setSelectedImage(null);
+    setShow(false);
+  };
+
   const handleShowModalSubirPrecios = () => setShowModalSubirPrecios(true);
   const handleCloseModalSubirPrecios = () => setShowModalSubirPrecios(false);
 
@@ -58,7 +71,7 @@ const MainProductos = () => {
 
 
   const crearProductos = () => {
-    if (codProducto.length === 0 || nombre_producto.length === 0 || descripcion_producto.length === 0 || precioCompra.length === 0 || precioVenta.length === 0 || stock.length === 0 || Id_categoria === 0) {
+    if (codProducto.length === 0 || nombre_producto.length === 0 || descripcion_producto.length === 0|| foto.length === 0 || precioCompra.length === 0 || precioVenta.length === 0 || stock.length === 0 || Id_categoria === 0) {
         Swal.fire({
             icon: "error",
             title: "Error",
@@ -73,6 +86,7 @@ const MainProductos = () => {
         Descripcion: descripcion_producto,
         PrecioCompra: parseFloat(precioCompra),
         PrecioVenta: parseFloat(precioVenta),
+        Foto:foto,
         Stock: stock,
         IdCategoria: Id_categoria,
         IdSucursal: IdSucursal,
@@ -309,7 +323,7 @@ const MainProductos = () => {
     };
     
     const editarProducto = () => {
-        if (codProducto.length === 0 || nombre_producto.length === 0 || descripcion_producto.length === 0 || precioCompra.length === 0 || precioVenta.length === 0 || stock.length === 0 || Id_categoria === 0) {
+        if (codProducto.length === 0 || nombre_producto.length === 0 || descripcion_producto.length === 0 || foto.length === 0|| precioCompra.length === 0 || precioVenta.length === 0 || stock.length === 0 || Id_categoria === 0) {
             Swal.fire({
                 icon: "error",
                 title: "Error",
@@ -325,6 +339,7 @@ const MainProductos = () => {
             Descripcion: descripcion_producto,
             PrecioCompra: parseFloat(precioCompra),
             PrecioVenta: parseFloat(precioVenta),
+            Foto:foto,
             Cantidad: stock,
             IdSucursal: IdSucursal,
             IdCategoria: Id_categoria,
@@ -387,6 +402,7 @@ const MainProductos = () => {
         setDescripcion_Producto(val.Descripcion)
         setPrecioCompra(val.PrecioCompra)
         setPrecioVenta(val.PrecioVenta)
+        setFoto(val.Foto)
         setStock(val.Stock)
         setId_categoria(val.IdCategoria)
         setCodProducto(val.Codigo)
@@ -531,6 +547,7 @@ const MainProductos = () => {
         setDescripcion_Producto("")
         setPrecioCompra('')
         setPrecioVenta('')
+        setFoto('')
         setStock(0)
         setId_categoria(0)
         setNombreCategoria("")
@@ -585,7 +602,7 @@ const MainProductos = () => {
     };
 
   return (
-       <>
+       <div className='body'>
             <h2 style={{color:'#000'}}><strong>GESTION PRODUCTOS</strong></h2>
             <h4 className='naranja'>Gestiona todos los productos de tu negocio</h4> <br /> 
 
@@ -633,7 +650,12 @@ const MainProductos = () => {
                     </span>
                     <input className="form-control inputss" type="number" placeholder="Cantidad" value={stock} onChange={(e) => setStock(e.target.value)} />
                 </MDBInputGroup>
-
+                <MDBInputGroup className="mb-3">
+                    <span className="input-group-text inputss">
+                        <FontAwesomeIcon icon={faImage} size="lg"  style={{color: '#FD6500'}} />
+                    </span>
+                    <input className="form-control inputss" type="text" placeholder="Foto" value={foto} onChange={(e) => setFoto(e.target.value)} />
+                </MDBInputGroup>
                 <MDBInputGroup>
                     <span className="input-group-text inputss">
                         <FontAwesomeIcon icon={faTags} size="lg"  style={{color: '#FD6500'}} />
@@ -725,6 +747,7 @@ const MainProductos = () => {
                             <th>PRECIO COSTO</th>
                             <th>PRECIO VENTA</th>
                             <th>CANTIDAD</th>
+                            <th>FOTO</th>
                             <th>CATEGORIA</th>
                             <th>GANANCIA</th>
                             <th>ESTADO</th>
@@ -740,6 +763,25 @@ const MainProductos = () => {
                                 <td>{val.PrecioCompra}</td>
                                 <td>{val.PrecioVenta}</td>
                                 <td>{val.Stock}</td>
+                                <td>
+  <img
+    src={val.Foto || "https://cdn-icons-png.flaticon.com/512/468/468833.png"}
+    alt="Thumbnail"
+    style={{
+      width: "50px",
+      height: "50px",
+      objectFit: "cover",
+      cursor: "pointer",
+      borderRadius: "5px",
+    }}
+    onClick={() => handleShow(val.Foto || "https://cdn-icons-png.flaticon.com/512/468/468833.png")}
+    onError={(e) => {
+      e.target.src = "https://cdn-icons-png.flaticon.com/512/468/468833.png"; 
+    }}
+  />
+</td>
+
+
                                 <td>{val.DescripcionCategoria}</td>                          
                                 <td>${parseFloat(val.PrecioVenta - val.PrecioCompra).toFixed(2)}</td>
                                 <td>{val.Estado===1?"Activo":"No Activo"}</td>
@@ -945,7 +987,36 @@ const MainProductos = () => {
     </Button>
   </Modal.Footer>
 </Modal>
-    </>
+
+
+
+ {/* Modal para mostrar la foto */}
+<Modal show={show} onHide={handleClose} centered>
+  <Modal.Header closeButton>
+    <Modal.Title>Foto</Modal.Title>
+  </Modal.Header>
+  <Modal.Body className="text-center">
+    <img
+      src={selectedImage || "https://cdn-icons-png.flaticon.com/512/468/468833.png"}
+      alt="Vista ampliada"
+      style={{
+        maxWidth: "100%",
+        maxHeight: "500px",
+        borderRadius: "8px",
+      }}
+      onError={(e) => {
+        e.target.src = "https://cdn-icons-png.flaticon.com/512/468/468833.png"; // Imagen de fallback
+      }}
+    />
+  </Modal.Body>
+  <Modal.Footer>
+    <Button variant="secondary" onClick={handleClose}>
+      Cerrar
+    </Button>
+  </Modal.Footer>
+</Modal>
+
+    </div>
   )
 }
 

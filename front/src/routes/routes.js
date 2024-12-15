@@ -17,6 +17,6 @@ export const usuarios = "/usuarios"
 export const paquetes = "/paquetes"
 
 
-
-export const loginCliente = "/"
-export const cuentaCliente = "/CuentaCliente"
+//CLIENTES
+export const loginCliente = "/login"
+export const home = "/"

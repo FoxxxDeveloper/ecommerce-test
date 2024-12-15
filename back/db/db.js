@@ -4,7 +4,7 @@ const dbConfig = {
     host: 'localhost',
     user: 'root',
     password: '698465xd00',
-    database: 'DBSISTEMA_VENTA_WEB',
+    database: 'ECOMMERCE_WEB',
     multipleStatements: true
 };
 

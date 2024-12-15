@@ -2,10 +2,10 @@ const {db } = require("../db/db.js")
 const jwt = require('jsonwebtoken');
 
 const registrar = (req, res) => {
-  const { Codigo, Nombre, Descripcion, PrecioCompra, PrecioVenta, Stock, IdSucursal, IdCategoria, Estado } = req.body;
+  const { Codigo, Nombre, Descripcion,Foto, PrecioCompra, PrecioVenta, Stock, IdSucursal, IdCategoria, Estado } = req.body;
 
-  db.query("CALL SP_RegistrarProducto(?, ?, ?, ?, ?, ?, ?, ?, ?, @p_Resultado, @p_Mensaje); SELECT @p_Resultado AS Resultado, @p_Mensaje AS Mensaje;",
-  [Codigo, Nombre, Descripcion, PrecioCompra, PrecioVenta, Stock, IdSucursal, IdCategoria, Estado],
+  db.query("CALL SP_RegistrarProducto(?, ?, ?, ?,?, ?, ?, ?, ?, ?, @p_Resultado, @p_Mensaje); SELECT @p_Resultado AS Resultado, @p_Mensaje AS Mensaje;",
+  [Codigo, Nombre, Descripcion,Foto, PrecioCompra, PrecioVenta, Stock, IdSucursal, IdCategoria, Estado],
   (err, result) => {
       if (err) {
           console.log(err);
@@ -36,7 +36,7 @@ const buscar = (req,res)=>{
         return;
       }
 
-    db.query("SELECT p.IdProducto, Codigo, Nombre, p.Descripcion, c.IdCategoria, c.Descripcion as DescripcionCategoria, s.Cantidad as Stock, PrecioCompra, PrecioVenta, p.Estado FROM PRODUCTO p inner join CATEGORIA c on c.IdCategoria = p.IdCategoria inner join STOCK s on s.IdProducto = p.IdProducto where IdSucursal= ? and Codigo = ?", [IdSucursal,codigo],
+    db.query("SELECT p.IdProducto, Codigo, Nombre, p.Descripcion,p.Foto, c.IdCategoria, c.Descripcion as DescripcionCategoria, s.Cantidad as Stock, PrecioCompra, PrecioVenta, p.Estado FROM PRODUCTO p inner join CATEGORIA c on c.IdCategoria = p.IdCategoria inner join STOCK s on s.IdProducto = p.IdProducto where IdSucursal= ? and Codigo = ?", [IdSucursal,codigo],
     (err,result)=>{if (err) {
         console.log(err);
         res.status(500).send("Error al buscar el producto.");
@@ -55,7 +55,7 @@ const buscar = (req,res)=>{
 
 const mostrar =(req,res)=>{
   const { IdSucursal } = req.query;
-    db.query("SELECT p.IdProducto, Codigo, Nombre, p.Descripcion, c.IdCategoria, c.Descripcion as DescripcionCategoria, s.Cantidad as Stock, PrecioCompra, PrecioVenta, p.Estado FROM PRODUCTO p inner join CATEGORIA c on c.IdCategoria = p.IdCategoria inner join STOCK s on s.IdProducto = p.IdProducto where IdSucursal="+IdSucursal,
+    db.query("SELECT p.IdProducto, Codigo, Nombre, p.Descripcion,p.Foto, c.IdCategoria, c.Descripcion as DescripcionCategoria, s.Cantidad as Stock, PrecioCompra, PrecioVenta, p.Estado FROM PRODUCTO p inner join CATEGORIA c on c.IdCategoria = p.IdCategoria inner join STOCK s on s.IdProducto = p.IdProducto where IdSucursal="+IdSucursal,
     (err,result)=>{
         if(err){
         console.log(err)
@@ -64,10 +64,10 @@ const mostrar =(req,res)=>{
     }});
 };
 const editar = (req, res) => {
-    const { IdProducto, IdSucursal, Codigo, Nombre, Descripcion, PrecioCompra, PrecioVenta, Cantidad, IdCategoria, Estado } = req.body;
+    const { IdProducto, IdSucursal, Codigo, Nombre, Descripcion,Foto, PrecioCompra, PrecioVenta, Cantidad, IdCategoria, Estado } = req.body;
 
-    db.query("CALL SP_ModificarProducto(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @p_Resultado, @p_Mensaje); SELECT @p_Resultado AS Resultado, @p_Mensaje AS Mensaje;",
-    [IdProducto, IdSucursal, Codigo, Nombre, Descripcion, PrecioCompra, PrecioVenta, Cantidad, IdCategoria, Estado],
+    db.query("CALL SP_ModificarProducto(?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, @p_Resultado, @p_Mensaje); SELECT @p_Resultado AS Resultado, @p_Mensaje AS Mensaje;",
+    [IdProducto, IdSucursal, Codigo, Nombre, Descripcion,Foto, PrecioCompra, PrecioVenta, Cantidad, IdCategoria, Estado],
     (err, result) => {
         if (err) {
             console.log(err);

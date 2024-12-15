@@ -3,12 +3,12 @@ const jwt = require('jsonwebtoken');
 
 
 const registrar = (req, res) => {
-    const { Documento, NombreCompleto, Correo, Telefono, Deuda = 0, Estado } = req.body;
+    const { Documento, Clave,NombreCompleto, Correo, Telefono, Deuda = 0, Estado } = req.body;
     const EstadoValor = Estado === "" ? 1 : parseInt(Estado);
 
     db.query(
-        "CALL SP_RegistrarCliente(?, ?, ?, ?, ?, ?, @Resultado, @Mensaje); SELECT @Resultado AS Resultado, @Mensaje AS Mensaje;",
-        [Documento, NombreCompleto, Correo, Telefono, Deuda, EstadoValor],
+        "CALL SP_RegistrarCliente(?, ?,?, ?, ?, ?, ?, @Resultado, @Mensaje); SELECT @Resultado AS Resultado, @Mensaje AS Mensaje;",
+        [Documento, Clave,NombreCompleto, Correo, Telefono, Deuda, EstadoValor],
         (err, results) => {
             if (err) {
                 console.error('Error en la consulta:', err);
@@ -31,6 +31,33 @@ const registrar = (req, res) => {
     );
 };
 
+const registrarDireccion = (req, res) => {
+    const { IdCliente, Provincia, Ciudad, CodigoPostal, Direccion } = req.body;
+ 
+    db.query(
+        "CALL SP_RegistrarDireccion(?, ?, ?, ?, ?, ?, @Resultado, @Mensaje); SELECT @Resultado AS Resultado, @Mensaje AS Mensaje;",
+        [IdCliente, Provincia, Ciudad, CodigoPostal, Direccion, 1],
+        (err, results) => {
+            if (err) {
+                console.error('Error en la consulta:', err);
+                res.status(500).send({
+                    success: false,
+                    mensaje: "Error en la base de datos",
+                    error: err.message
+                });
+            } else {
+                const resultado = results[1][0].Resultado;
+                const mensaje = results[1][0].Mensaje;
+
+                if (resultado > 0) {
+                    res.status(200).send({ success: true, mensaje: "Dirección registrada con éxito", idDireccion: resultado });
+                } else {
+                    res.status(400).send({ success: false, mensaje });
+                }
+            }
+        }
+    );
+};
 
 
 const mostrar = (req,res)=>{
@@ -45,12 +72,12 @@ const mostrar = (req,res)=>{
 
 
 const editar = (req, res) => {
-    const { IdCliente, Documento, NombreCompleto, Correo, Telefono, Deuda = 0, Estado } = req.body;
+    const { IdCliente, Documento, Clave,NombreCompleto, Correo, Telefono, Deuda = 0, Estado } = req.body;
     const EstadoValor = Estado === "" ? 1 : parseInt(Estado);
 
     db.query(
-        "CALL SP_ModificarCliente(?, ?, ?, ?, ?, ?, ?, @Resultado, @Mensaje); SELECT @Resultado AS Resultado, @Mensaje AS Mensaje;",
-        [IdCliente, Documento, NombreCompleto, Correo, Telefono, Deuda, EstadoValor],
+        "CALL SP_ModificarCliente(?,?, ?, ?, ?, ?, ?, ?, @Resultado, @Mensaje); SELECT @Resultado AS Resultado, @Mensaje AS Mensaje;",
+        [IdCliente, Documento,Clave, NombreCompleto, Correo, Telefono, Deuda, EstadoValor],
         (err, results) => {
             if (err) {
                 console.error(err);
@@ -232,6 +259,46 @@ ORDER BY idPago;`,
     );
 };
 
+const obtenerDirecciones = (req, res) => {
+    let IdCliente = req.query.IdCliente; 
+    if (!IdCliente) {
+        IdCliente = req.Usuario?.IdCliente; 
+    }
+
+    console.log("IdCliente:", IdCliente);
+
+    db.query(
+        `SELECT 
+            IdDireccion, 
+            Provincia, 
+            Ciudad, 
+            CodigoPostal, 
+            Direccion, 
+            Estado, 
+            DATE_FORMAT(FechaRegistro, '%d/%m/%Y') AS FechaRegistro
+        FROM DIRECCION
+        WHERE IdCliente = ? AND Estado = 1
+        ORDER BY FechaRegistro DESC`, // Filtra por cliente y direcciones activas (Estado = 1)
+        [IdCliente],
+        (err, results) => {
+            if (err) {
+                console.error('Error en la consulta:', err);
+                res.status(500).send({
+                    success: false,
+                    mensaje: "Error en la base de datos",
+                    error: err.message
+                });
+            } else {
+                if (results.length > 0) {
+                    res.status(200).send({ success: true, direcciones: results });
+                } else {
+                    res.status(404).send({ success: false, mensaje: "No se encontraron direcciones para el cliente especificado." });
+                }
+            }
+        }
+    );
+};
+
 
 const generarAccessToken = (Cliente)=>{
     return jwt.sign(Cliente, process.env.SECRET, {expiresIn:'30m'} )   
@@ -247,8 +314,8 @@ const Login = (req, res) => {
     }
 
     db.query(
-        "SELECT IdCliente, NombreCompleto, Estado, Correo,Documento, Telefono, Deuda FROM CLIENTE WHERE (Correo = ? AND Documento = ?) OR (Telefono = ? AND Documento = ?)",
-        [Usuario, Clave, Usuario, Clave],
+        "SELECT IdCliente, NombreCompleto, Estado, Correo,Documento,Clave, Telefono, Deuda FROM CLIENTE WHERE Documento = ? AND Clave = ?",
+        [Usuario, Clave],
         (error, results) => {
             if (error) {
                 console.error("Error en la consulta:", error);
@@ -306,4 +373,4 @@ const verificarToken = async (req, res) => {
 };
 
 
-module.exports = {mostrar, registrar,editar,eliminar,registrarPago,eliminarPago,obtenerPagos,validarToken,Login,verificarToken }
+module.exports = {mostrar, registrar,editar,obtenerDirecciones,registrarDireccion,eliminar,registrarPago,eliminarPago,obtenerPagos,validarToken,Login,verificarToken }

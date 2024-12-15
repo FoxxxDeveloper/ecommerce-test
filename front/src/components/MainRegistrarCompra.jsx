@@ -571,7 +571,7 @@ const eliminarCompraGuardada = (index) => {
   }, [listaParaComprar]);
 
   return (
-    <>
+    <div className='body'>
   
       <div className='h3-ventas'>
       <h2 style={{color:'#000'}}><strong>REGISTRO DE COMPRAS</strong></h2>
@@ -1062,7 +1062,7 @@ const eliminarCompraGuardada = (index) => {
 
           <div className='col'><Button  className='gradient-button2' style={{width: '190px', marginTop:'10px', color: '#fff'}} onClick={handleShowModalFinalCompra} >F12-COMPRAR</Button></div>
 
-    </>
+    </div>
   )
 }
 export default MainRegistrarCompra

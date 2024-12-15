@@ -30,7 +30,7 @@ const LoginCliente = () => {
             const token = response.data.token;
             localStorage.setItem('Token', token);
 
-            navigate('/cuentacliente');
+            navigate('/');
         } catch (error) {
             setErrorMessage('Usuario y/o clave incorrecta'); 
         } finally {

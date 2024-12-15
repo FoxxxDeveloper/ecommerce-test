@@ -2,7 +2,7 @@
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { login,ventas, paquetes, categorias, clientes, codigobarra, cuentacorriente, detallecompra, detalleventa, finanzas,metodopago,permisos,productos,proveedores,compras,reportes,usuarios, cuentaCliente,loginCliente } from './routes/routes.js'
+import { login,ventas, paquetes, categorias, clientes, codigobarra, cuentacorriente, detallecompra, detalleventa, finanzas,metodopago,permisos,productos,proveedores,compras,reportes,usuarios, home,loginCliente } from './routes/routes.js'
 import DataProvider from './context/DataProvider.jsx'
 import Login from './pages/Login.jsx'
 import RegistrarVenta from './pages/RegistrarVenta.jsx'
@@ -22,8 +22,7 @@ import Usuarios from './pages/Usuarios.jsx'
 import Paquetes from './pages/Paquetes.jsx'
 import Reportes from './pages/Reportes.jsx'
 import LoginCliente from './pages/Cliente/LoginCliente.jsx'
-import CuentaCorrienteCliente from './pages/Cliente/CuentaCorrienteCliente.jsx'
-
+import Home from './pages/Cliente/Home.jsx'
 
   
 
@@ -57,9 +56,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                 <Route path={usuarios} element={<Usuarios/>}/>
                 <Route path={paquetes} element={<Paquetes/>}/>
                
-
+                 {/*CLIENTES */ }
                 <Route path={loginCliente} element={<LoginCliente/>}/>
-                <Route path={cuentaCliente} element={<CuentaCorrienteCliente/>}/>
+                <Route path={home} element={<Home/>}/>
               </Routes>
         
       </DataProvider>

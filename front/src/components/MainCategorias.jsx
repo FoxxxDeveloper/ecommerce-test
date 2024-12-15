@@ -200,7 +200,7 @@ useEffect(()=>{
 
 
   return (
-   <>
+   <div className='body'>
 <h2 className='mt-3'><strong>ADMINISTRACION DE CATEGORIAS</strong></h2>
 <h4 className='naranja'>Listado y gestión de categorias</h4>
 
@@ -292,7 +292,7 @@ useEffect(()=>{
 
 
 
-  </>
+  </div>
 
   )
 }
