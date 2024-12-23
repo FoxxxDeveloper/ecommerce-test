@@ -20,3 +20,5 @@ export const paquetes = "/paquetes"
 //CLIENTES
 export const loginCliente = "/login"
 export const home = "/"
+export const detalleproducto = "/detalleproducto"
+export const productosCliente = "/cli/productos"

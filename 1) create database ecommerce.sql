@@ -266,7 +266,6 @@ Porcentaje decimal (10,2),
 PRIMARY KEY (`IdMetodoPago`))
 ;
 
-insert into DIRECCION (IdCliente, Provincia, Ciudad, CodigoPostal, Direccion, Estado) values (1, 'Tucuman', 'San Miguel de Tucuman','4000', 'Italia 218',1),(1, 'Tucuman', 'Simoca','4173', 'Gomez Llueca 334',1),(1, 'Tucuman', 'San Miguel de Tucuman','4000', 'Lamadrid 1676',1);
 
 CREATE table DETALLE_PAQUETE (
 IdDetalle_Paquete int auto_increment,
@@ -295,5 +294,16 @@ KEY `fkv_pago_usuario` (`IdUsuario`),
   CONSTRAINT `fkv_pago_cliente` FOREIGN KEY (`IdCliente`) REFERENCES `CLIENTE` (`IdCliente`)
 
 );
-select * from DIRECCION;
-delete from DIRECCION where IdDireccion = 8;
+
+use ECOMMERCE_WEB;
+select * from PRODUCTO;
+update PRODUCTO set Descripcion = ' Producto de prueba para ver la descripcion que tanto muestra y ver donde corta la card ya que sino no sabemos donde la cortara xD jeje' where IdProducto = 2;
+INSERT INTO RESENA (IdProducto, IdCliente, Titulo, Calificacion, Reseña, Estado, FechaRegistro) VALUES
+(1, 1, 'Excelente teléfono', 5, 'El iPhone 15 es increíble, la cámara es impresionante y el diseño muy elegante.', 1, '2024-12-15 10:30:00'),
+(1, 2, 'Buen equipo', 4.5, 'El iPhone 15 tiene un excelente rendimiento, aunque esperaba más batería.', 1, '2024-12-16 14:45:00'),
+(2, 1, 'Interesante producto', 3, 'El producto de prueba es útil, pero podría ser mejor.', 1, '2024-12-14 11:20:00'),
+(3, 2, 'Perfecto para profesionales', 5, 'El iPhone 16 Pro tiene un diseño increíble y un rendimiento espectacular.', 1, '2024-12-20 18:00:00'),
+(4, 1, 'Gran calidad', 4, 'El Samsung S24 Ultra es un teléfono potente, aunque algo caro.', 1, '2024-12-19 17:00:00'),
+(4, 2, 'Muy bueno', 4.8, 'La cámara del S24 Ultra es excepcional, lo recomiendo.', 1, '2024-12-20 19:00:00'),
+(5, 1, 'Excelente notebook', 5, 'La Acer Nitro 5 es perfecta para gaming, su rendimiento es impecable.', 1, '2024-12-20 20:00:00'),
+(5, 2, 'Buena relación calidad/precio', 4.5, 'La Acer Nitro 5 tiene un gran desempeño, pero podría ser más ligera.', 1, '2024-12-21 08:00:00');

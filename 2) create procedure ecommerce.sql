@@ -1569,20 +1569,15 @@ CREATE PROCEDURE SP_REGISTRARUSUARIO(
     OUT p_Mensaje VARCHAR(500)
 )
 BEGIN
-    -- Inicializar variables de salida
     SET p_IdUsuarioResultado = 0;
     SET p_Mensaje = '';
 
-    -- Verificar si el documento ya existe
     IF NOT EXISTS (SELECT * FROM USUARIO WHERE Documento = p_Documento) THEN
-        -- Insertar nuevo usuario
         INSERT INTO USUARIO (Documento, NombreCompleto, Correo, Clave, IdRol, Estado, IdSucursal)
         VALUES (p_Documento, p_NombreCompleto, p_Correo, p_Clave, p_IdRol, p_Estado, p_IdSucursal);
 
-        -- Obtener el ID del nuevo usuario
         SET p_IdUsuarioResultado = LAST_INSERT_ID();
 
-        -- Insertar permisos dependiendo del rol
         IF p_IdRol = 1 THEN
             INSERT INTO PERMISO (IdUsuario, NombreMenu) VALUES (p_IdUsuarioResultado, 'menuusuario');
             INSERT INTO PERMISO (IdUsuario, NombreMenu) VALUES (p_IdUsuarioResultado, 'menuconfiguracion');
@@ -1602,11 +1597,8 @@ BEGIN
             INSERT INTO PERMISO (IdUsuario, NombreMenu) VALUES (p_IdUsuarioResultado, 'menucompras');
             INSERT INTO PERMISO (IdUsuario, NombreMenu) VALUES (p_IdUsuarioResultado, 'menuclientes');
         END IF;
-
-        -- Establecer mensaje de éxito
         SET p_Mensaje = 'Usuario registrado con éxito.';
     ELSE
-        -- Documento ya existe
         SET p_Mensaje = 'No se puede repetir el documento para más de un usuario.';
     END IF;
 END //
@@ -1709,7 +1701,7 @@ END //
 
 DELIMITER ;
 
-
+use ECOMMERCE_WEB;
 /* --------------CREATE PROCEDURE PARA CRUD VENTA--------------*/
 DROP PROCEDURE IF EXISTS sp_RegistrarVenta;
 
@@ -1726,6 +1718,9 @@ CREATE PROCEDURE sp_RegistrarVenta(
     IN p_Estado INT,
     IN p_IdSucursal INT,
     IN p_DetalleVenta JSON, -- JSON para manejar detalles de venta
+    IN p_IdDireccion INT, -- Dirección para la entrega
+    IN p_TipoEntrega VARCHAR(50), -- Tipo de entrega
+    IN p_EstadoEntrega INT, -- Estado de la entrega
     OUT p_Resultado BIT,
     OUT p_Mensaje VARCHAR(1000) -- Aumentamos el tamaño para mensajes más largos
 )
@@ -1743,8 +1738,8 @@ BEGIN
     START TRANSACTION;
 
     -- Insertar en la tabla VENTA
-    INSERT INTO VENTA (IdUsuario, TipoDocumento, NumeroDocumento, IdCliente, MontoPago, MontoCambio, MontoTotal, MetodoPago,Estado, IdSucursal)
-    VALUES (p_IdUsuario, p_TipoDocumento, NULL, p_IdCliente, p_MontoPago, p_MontoCambio, p_MontoTotal, p_MetodoPago,p_Estado, p_IdSucursal);
+    INSERT INTO VENTA (IdUsuario, TipoDocumento, NumeroDocumento, IdCliente, MontoPago, MontoCambio, MontoTotal, MetodoPago, Estado, IdSucursal)
+    VALUES (p_IdUsuario, p_TipoDocumento, NULL, p_IdCliente, p_MontoPago, p_MontoCambio, p_MontoTotal, p_MetodoPago, p_Estado, p_IdSucursal);
 
     -- Obtener el ID de la nueva venta
     SET v_IdVenta = LAST_INSERT_ID();
@@ -1768,10 +1763,16 @@ BEGIN
         CAST(JSON_UNQUOTE(JSON_EXTRACT(d.value, '$.SubTotal')) AS DECIMAL(10,2))
     FROM JSON_TABLE(p_DetalleVenta, '$[*]' COLUMNS (value JSON PATH '$')) AS d;
 
+    -- Insertar en la tabla ENTREGA
+    INSERT INTO ENTREGA (IdVenta, IdSucursal, IdDireccion, TipoEntrega, Estado)
+    VALUES (v_IdVenta, p_IdSucursal, p_IdDireccion, p_TipoEntrega, p_EstadoEntrega);
+
     -- Confirmar la transacción
     COMMIT;
+
+    -- Resultado exitoso
     SET p_Resultado = 1;
-    SET p_Mensaje = CONCAT('Venta ', v_NumeroDocumento, ' registrada correctamente.');
+    SET p_Mensaje = CONCAT('Venta ', v_NumeroDocumento, ' registrada correctamente con entrega.');
 END //
 
 DELIMITER ;

@@ -2,13 +2,23 @@ Agregue columna Foto en PRODUCTO
 agregue columna Clave en CLIENTE
 Agregue columna Estado en VENTA
 Estados de una venta {0: Pendiente, 1:Aprobada , 2: Rechazada}
-
+Estados de una entre {0: Pendiente, 1:Preparando el pedido , 2: En camino, 3: Entregado, 4:Cancelado }
 Agregué tabla DIRECCION
 Agregué tabla reseña
 Agregue tabla ENTREGA
 Agregue tabla FAVORITO
 
 -- PLANTEAR CUPONES DE DESCUENTO 
+
+-- PAGE PARA GESTIÓN DE PEDIDOS/ENTREGAS  Y VENTAS. 
+
+-- CHARLAR SOBRE LOS ESTADOS DE LA RESEÑA 
+
+/* PENDIENTE DE LA PARTE ADMIN*/
+-- GESTION DE COMPRAS/PEDIDOS
+-- GESTION DE ENVIOS
+-- MODAL EN PRODUCTOS PARA ABRIR SUS RESEÑAS CORRESPONDIENTES
+-- CHEQUEAR REPORTES
 /* 
 
 CREATE TABLE CUPON (

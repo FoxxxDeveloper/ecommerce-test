@@ -2,25 +2,41 @@ const {db} =require("../db/db.js")
 const jwt = require('jsonwebtoken');
 
 const registrar = (req, res) => {
+    let { TipoEntrega,IdDireccion,IdUsuario, IdCliente, TipoDocumento, MontoPago, MontoCambio, MontoTotal, MetodoPago, IdSucursal, DetalleVenta } = req.body;
+  
     let Estado= 0;
-    
+    let EstadoEntrega= 0;
+
+
+
     if(!req.Usuario.IdCliente){
      Estado = 1;
+
+        if(TipoEntrega == 'Retiro en local') {
+            EstadoEntrega= 3;
+        }
+        else{
+            EstadoEntrega=0
+        }
+
     }
     console.log(Estado)
 
-
-
-    let { IdUsuario, IdCliente, TipoDocumento, MontoPago, MontoCambio, MontoTotal, MetodoPago, IdSucursal, DetalleVenta } = req.body;
-  
     // Validación de datos
-    if (!IdUsuario || !IdCliente || !TipoDocumento || MontoPago === undefined || MontoCambio === undefined || MontoTotal === undefined || !MetodoPago || !IdSucursal || !DetalleVenta) {
+    if (!TipoEntrega ||!IdUsuario || !IdCliente || !TipoDocumento || MontoPago === undefined || MontoCambio === undefined || MontoTotal === undefined || !MetodoPago || !IdSucursal || !DetalleVenta) {
         return res.status(400).send({
             success: false,
             mensaje: "Faltan datos requeridos en la solicitud."
         });
     }
   
+    if (TipoEntrega== "Envio" && !IdDireccion) {
+        return res.status(400).send({
+            success: false,
+            mensaje: "Faltan los datos del envio."
+        });
+    }
+
     MontoPago === '' ? MontoPago = 0 : MontoPago = MontoPago;
   
     // Añadimos el SubTotal a cada ítem de DetalleVenta
@@ -30,8 +46,8 @@ const registrar = (req, res) => {
     }));
   
     // Llamada al procedimiento almacenado para registrar la venta
-    db.query('CALL sp_RegistrarVenta(?, ?,?, ?, ?, ?, ?, ?, ?, ?, @p_Resultado, @p_Mensaje)',
-      [IdUsuario, TipoDocumento, IdCliente, MontoPago, MontoCambio, MontoTotal, MetodoPago,Estado, IdSucursal, JSON.stringify(detalleVentaConSubTotal)],
+    db.query('CALL sp_RegistrarVenta(?, ?,?, ?, ?, ?, ?, ?, ?, ?,?,?,?, @p_Resultado, @p_Mensaje)',
+      [IdUsuario, TipoDocumento, IdCliente, MontoPago, MontoCambio, MontoTotal, MetodoPago,Estado, IdSucursal, JSON.stringify(detalleVentaConSubTotal),IdDireccion, TipoEntrega,EstadoEntrega],
       (error, results, fields) => {
           if (error) {
               console.error('Error en el registro de la venta:', error);

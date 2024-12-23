@@ -50,8 +50,211 @@ const buscar = (req,res)=>{
     });
   };
 
+  const detalles = (req, res) => {
+    const IdProducto = parseInt(req.params.id);
+    if (isNaN(IdProducto)) {
+        return res.status(400).send("El Id del producto no es válido.");
+    }
 
-  
+    db.query(`
+        SELECT 
+            P.IdProducto, 
+            P.Nombre, 
+            P.Descripcion, 
+            P.Foto, 
+            P.PrecioVenta,
+            COALESCE(AVG(R.Calificacion), 0) AS PromedioCalificacion,
+            JSON_ARRAYAGG(
+                JSON_OBJECT(
+                    'IdResena', R.IdResena,
+                    'IdCliente', R.IdCliente,
+                    'Titulo', R.Titulo,
+                    'Calificacion', R.Calificacion,
+                    'Resena', R.Reseña,
+                    'Estado', R.Estado,
+                    'FechaRegistro', R.FechaRegistro
+                )
+            ) AS Reseñas
+        FROM 
+            PRODUCTO P
+        LEFT JOIN RESENA R ON P.IdProducto = R.IdProducto AND R.Estado = 'Aprobada'
+        WHERE 
+            P.IdProducto = ?
+        GROUP BY 
+            P.IdProducto, P.Nombre, P.Descripcion, P.Foto, P.PrecioVenta;
+    `, [IdProducto], (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send("Error al buscar el producto.");
+        }
+
+        if (result.length === 0) {
+            return res.status(404).send("Producto no encontrado.");
+        }
+
+        res.send(result[0]);
+    });
+};
+const buscarProductos = (req, res) => {
+    const terminoBusqueda = req.params.termino;
+    if (!terminoBusqueda) {
+        return res.status(400).send("El término de búsqueda es obligatorio.");
+    }
+
+    const sqlQuery = `
+        SELECT 
+            P.IdProducto, 
+            P.Nombre, 
+            P.Descripcion, 
+            P.Foto, 
+            P.PrecioVenta,
+            C.Descripcion AS NombreCategoria,
+            COALESCE(AVG(R.Calificacion), 0) AS PromedioCalificacion
+        FROM 
+            PRODUCTO P
+        INNER JOIN 
+            CATEGORIA C ON P.IdCategoria = C.IdCategoria
+        LEFT JOIN 
+            RESENA R ON P.IdProducto = R.IdProducto AND R.Estado = 'Aprobada'
+        WHERE 
+            P.Nombre LIKE ? OR P.Descripcion LIKE ?
+        GROUP BY 
+            P.IdProducto, P.Nombre, P.Descripcion, P.Foto, P.PrecioVenta, C.Descripcion;
+    `;
+
+    const buscador = `%${terminoBusqueda}%`;
+
+    db.query(sqlQuery, [buscador, buscador], (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send("Error al buscar los productos.");
+        }
+
+        if (result.length === 0) {
+            return res.status(404).send("No se encontraron productos que coincidan con la búsqueda.");
+        }
+
+        res.send(result);
+    });
+};
+
+const productosCat = (req, res) => {
+    const IdCategoria = parseInt(req.params.id);
+    if (isNaN(IdCategoria)) {
+        return res.status(400).send("El Id de la categoría no es válido.");
+    }
+
+    db.query(`
+        SELECT 
+            P.IdProducto, 
+            P.Nombre, 
+            P.Descripcion, 
+            P.Foto, 
+            P.PrecioVenta,
+            C.Descripcion AS NombreCategoria,
+            COALESCE(AVG(R.Calificacion), 0) AS PromedioCalificacion
+        FROM 
+            PRODUCTO P
+        INNER JOIN 
+            CATEGORIA C ON P.IdCategoria = C.IdCategoria
+        LEFT JOIN 
+            RESENA R ON P.IdProducto = R.IdProducto AND R.Estado = 'Aprobada'
+        WHERE 
+            P.IdCategoria = ?
+        GROUP BY 
+            P.IdProducto, P.Nombre, P.Descripcion, P.Foto, P.PrecioVenta, C.Descripcion;
+    `, [IdCategoria], (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send("Error al buscar los productos.");
+        }
+
+        if (result.length === 0) {
+            return res.status(404).send("No se encontraron productos para esta categoría.");
+        }
+
+        res.send(result);
+    });
+};
+
+
+
+  const mostrarTop = (req, res) => {
+    const queryTopVendidos = `
+        SELECT 
+            P.IdProducto, 
+            P.Nombre, 
+            P.Descripcion, 
+            P.Foto, 
+            P.PrecioVenta,
+            COALESCE(AVG(R.Calificacion), 0) AS PromedioCalificacion
+        FROM 
+            PRODUCTO P
+        INNER JOIN (
+            SELECT 
+                DV.IdProducto, 
+                SUM(DV.Cantidad) AS CantidadTotal
+            FROM 
+                DETALLE_VENTA DV
+            GROUP BY 
+                DV.IdProducto
+            ORDER BY 
+                CantidadTotal DESC
+            LIMIT 3
+        ) TOP_VENDIDOS ON P.IdProducto = TOP_VENDIDOS.IdProducto
+        LEFT JOIN RESENA R ON P.IdProducto = R.IdProducto AND R.Estado = 'Aprobada'
+        GROUP BY 
+            P.IdProducto, P.Nombre, P.Descripcion, P.Foto, P.PrecioVenta;
+    `;
+
+    const queryNuevosProductos = `
+        SELECT 
+            P.IdProducto, 
+            P.Nombre, 
+            P.Descripcion, 
+            P.Foto, 
+            P.PrecioVenta,
+            COALESCE(AVG(R.Calificacion), 0) AS PromedioCalificacion
+        FROM 
+            PRODUCTO P
+        LEFT JOIN RESENA R ON P.IdProducto = R.IdProducto AND R.Estado = 'Aprobada'
+        GROUP BY 
+            P.IdProducto, P.Nombre, P.Descripcion, P.Foto, P.PrecioVenta
+        ORDER BY 
+            P.FechaRegistro DESC
+        LIMIT 3;
+    `;
+
+    // Realiza la primera consulta
+    db.query(queryTopVendidos, (err, topVendidos) => {
+        if (err) {
+            console.error("Error en la consulta de productos más vendidos:", err);
+            return res.status(500).send("Error al ejecutar la consulta de productos más vendidos.");
+        }
+
+        // Realiza la segunda consulta
+        db.query(queryNuevosProductos, (err, nuevosProductos) => {
+            if (err) {
+                console.error("Error en la consulta de nuevos productos:", err);
+                return res.status(500).send("Error al ejecutar la consulta de nuevos productos.");
+            }
+
+            // Verifica que los resultados sean arreglos
+            if (!Array.isArray(topVendidos) || !Array.isArray(nuevosProductos)) {
+                return res.status(500).send("Uno de los resultados no es un arreglo.");
+            }
+
+            // Envía la respuesta
+            res.json({
+                topVendidos,
+                nuevosProductos,
+            });
+        });
+    });
+};
+
+
+
 
 const mostrar =(req,res)=>{
   const { IdSucursal } = req.query;
@@ -86,6 +289,7 @@ const editar = (req, res) => {
         }
     });
 };
+
 
 const eliminar = (req, res) => {
   const IdProducto = req.params.id;
@@ -283,4 +487,4 @@ const cargarMasivamente = (req, res) => {
 
 
 
-module.exports = {registrar,buscar,mostrar, editar, eliminar, subirPreciosMasivos,cargarMasivamente, bajarPreciosMasivos,validarToken}
+module.exports = {registrar,buscarProductos,detalles,productosCat,buscar,mostrar,mostrarTop, editar, eliminar, subirPreciosMasivos,cargarMasivamente, bajarPreciosMasivos,validarToken}

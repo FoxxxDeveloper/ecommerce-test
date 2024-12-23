@@ -1,8 +1,12 @@
 const {Router} = require ('express')
 const router = Router()
 
- const {mostrar, registrar, editar, eliminar, buscar,subirPreciosMasivos, bajarPreciosMasivos,validarToken, cargarMasivamente} = require ('../controllers/Producto')
-
+ const {mostrar,productosCat,buscarProductos, registrar,detalles,mostrarTop, editar, eliminar, buscar,subirPreciosMasivos, bajarPreciosMasivos,validarToken, cargarMasivamente} = require ('../controllers/Producto')
+ 
+router.get("/top",mostrarTop)
+router.get("/detalles/:id",detalles)
+router.get("/categoria/:id",productosCat)
+router.get("/buscador/:termino",buscarProductos)
 router.get("/",validarToken,mostrar)
 router.get("/buscar",validarToken,buscar)
 router.post("/registrar",validarToken,registrar)

@@ -397,7 +397,6 @@ const eliminarVentaGuardada = (index) => {
         });
         return;
     }
-
     const ventaData = {
         IdUsuario,
         IdCliente,
@@ -407,6 +406,8 @@ const eliminarVentaGuardada = (index) => {
         MontoTotal: MontoTotalFinal,
         MetodoPago,
         IdSucursal,
+        IdDireccion: DireccionEnvio.IdDireccion,
+        TipoEntrega,
         DetalleVenta: listaParaVender.map(item => ({
             IdProducto: item.TipoProducto === 1 ? item.IdProducto : null,
             IdPaquete: item.TipoProducto === 2 ? item.IdPaquete : null,
@@ -620,7 +621,6 @@ const eliminarVentaGuardada = (index) => {
       setMontoTotal(MontoTotal);
   
       let MontoTotalFinal = MontoTotal;
-  console.log(porcentaje)
       if (porcentaje) {
         MontoTotalFinal = MontoTotal + (MontoTotal * (porcentaje / 100));
       }

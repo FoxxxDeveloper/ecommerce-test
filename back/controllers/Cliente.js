@@ -305,17 +305,16 @@ const generarAccessToken = (Cliente)=>{
 }
 
 const Login = (req, res) => {
-    const Usuario = req.body.Usuario;
+    const Documento = req.body.Documento;
     const Clave = req.body.Clave;
-
     // Validación básica de entrada
-    if (!Usuario || !Clave) {
+    if (!Documento || !Clave) {
         return res.status(400).send('Usuario y/o clave son requeridos');
     }
 
     db.query(
         "SELECT IdCliente, NombreCompleto, Estado, Correo,Documento,Clave, Telefono, Deuda FROM CLIENTE WHERE Documento = ? AND Clave = ?",
-        [Usuario, Clave],
+        [Documento, Clave],
         (error, results) => {
             if (error) {
                 console.error("Error en la consulta:", error);
@@ -338,7 +337,7 @@ const Login = (req, res) => {
                         res.header('auth', accessToken).json({
                             message: 'Cliente autorizado',
                             token: accessToken,
-                            IdCliente: client.IdCliente
+                            cliente: client
                         });
                     } else {
                         res.status(403).send('Cliente inactivo');
