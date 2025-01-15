@@ -8,7 +8,12 @@
     max-width: 1200px;
     margin: 0 auto;
   }
-
+  .reviews-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+    gap: 20px; /* Espacio entre las columnas */
+    margin-top: 30px; /* Espacio superior */
+  }
   .product-info {
     display: grid;
     grid-template-columns: 1fr 2fr;
@@ -117,7 +122,9 @@
       grid-template-columns: 1fr;
       text-align: center;
     }
-  
+    .reviews-list {
+      grid-template-columns: 1fr; /* Una columna */
+    }
     .product-image {
       margin-bottom: 20px;
     }

@@ -8,13 +8,13 @@ const MainDetalleProducto = () => {
   const [reviews, setReviews] = useState([]);
   const [error, setError] = useState(null);
   const [cantidad, setCantidad] = useState(1);
-  const [formData, setFormData] = useState({
-    name: '',
-    title: '',
-    comment: '',
-    rating: 5,
-  });
-  const [rating, setRating] = useState(0);
+  // const [formData, setFormData] = useState({
+  //   name: '',
+  //   title: '',
+  //   comment: '',
+  //   rating: 5,
+  // });
+  // const [rating, setRating] = useState(0);
 
   const id = new URLSearchParams(window.location.search).get('id');
   const { URL } = useContext(DataContext);
@@ -49,9 +49,9 @@ const MainDetalleProducto = () => {
     return <div className="loading-message">Cargando...</div>;
   }
 
-  const handleAddReview = (newReview) => {
-    setReviews([newReview, ...reviews]);
-  };
+  // const handleAddReview = (newReview) => {
+  //   setReviews([newReview, ...reviews]);
+  // };
 
   const calculateRatingSummary = () => {
     const summary = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
@@ -63,22 +63,22 @@ const MainDetalleProducto = () => {
 
   const ratingSummary = calculateRatingSummary();
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  // const handleChange = (e) => {
+  //   setFormData({
+  //     ...formData,
+  //     [e.target.name]: e.target.value,
+  //   });
+  // };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const newReview = {
-      ...formData,
-      FechaRegistro: new Date().toISOString(),
-    };
-    handleAddReview(newReview);
-    setFormData({ name: '', title: '', comment: '', rating: 5 });
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   const newReview = {
+  //     ...formData,
+  //     FechaRegistro: new Date().toISOString(),
+  //   };
+  //   handleAddReview(newReview);
+  //   setFormData({ name: '', title: '', comment: '', rating: 5 });
+  // };
 
   const getProgressBarColor = (percentage) => {
     if (percentage >= 80) {
@@ -90,9 +90,9 @@ const MainDetalleProducto = () => {
     }
   };
 
-  const handleRatingChange = (newRating) => {
-    setRating(newRating);
-  };
+  // const handleRatingChange = (newRating) => {
+  //   setRating(newRating);
+  // };
 
   return (
     <div className="product-detail-container">
@@ -189,7 +189,7 @@ const MainDetalleProducto = () => {
           ))}
         </div>
 
-        <div className="add-review">
+        {/*<div className="add-review">
             <h5>Deja la reseña de este producto.</h5>
             <br />
           <form onSubmit={handleSubmit} className="review-form">
@@ -238,7 +238,7 @@ const MainDetalleProducto = () => {
 
             <button className="button" type="submit">Enviar</button>
           </form>
-        </div>
+        </div>*/ }
       </div>
     </div>
   );

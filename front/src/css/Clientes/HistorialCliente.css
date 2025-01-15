@@ -1,0 +1,111 @@
+.table-responsive {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.table {
+  margin: 0;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+}
+
+.table thead th {
+  background-color: #000;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
+}
+
+.table tbody tr {
+  background: #f9f9f9;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.table tbody tr:hover {
+  transform: scale(1.01);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table td {
+  text-align: center;
+  padding: 15px;
+  vertical-align: middle;
+}
+
+.table td ul {
+  padding: 0;
+  list-style: none;
+  margin: 0;
+}
+
+.table td strong {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.table td strong.orange {
+  background-color: #f5a623;
+  color: #fff;
+}
+
+.table td strong.green {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.table td strong.red {
+  background-color: #f44336;
+  color: #fff;
+}
+
+.btnTabla {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  transition: background-color 0.2s;
+}
+
+.btnTabla:hover {
+  background-color: #444;
+}
+
+.mensaje-sin-compras {
+  padding: 20px;
+  background-color: #e9ecef;
+  color: #6c757d;
+  border-radius: 10px;
+  font-size: 1.2em;
+  text-align: center;
+  margin-top: 50px;
+}
+
+.logo {
+  max-width: 150px;
+  margin: 20px auto;
+  display: block;
+}
+
+  
+  
+  /* Para pantallas medianas (tabletas) */
+  @media (max-width: 768px) {
+    .logo {
+      max-width: 200px; /* Logo más pequeño en dispositivos medianos */
+    }
+  
+  }
+  
+  /* Para pantallas pequeñas (móviles) */
+  @media (max-width: 480px) {
+    .logo {
+      max-width: 150px; /* Logo aún más pequeño en dispositivos móviles */
+    }
+      
+  }
+ 

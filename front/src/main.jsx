@@ -2,7 +2,7 @@
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { login,ventas, paquetes, categorias, clientes, codigobarra, cuentacorriente, detallecompra, detalleventa, finanzas,metodopago,permisos,productos,proveedores,compras,reportes,usuarios, home,loginCliente, detalleproducto,productosCliente } from './routes/routes.js'
+import { login,ventas, paquetes, categorias, clientes, codigobarra, cuentacorriente, detallecompra, detalleventa, finanzas,metodopago,permisos,productos,proveedores,compras,reportes,usuarios, home,loginCliente, detalleproducto,productosCliente,historialcompras,detallecompracliente } from './routes/routes.js'
 import DataProvider from './context/DataProvider.jsx'
 import Login from './pages/Login.jsx'
 import RegistrarVenta from './pages/RegistrarVenta.jsx'
@@ -26,6 +26,8 @@ import Home from './pages/Cliente/Home.jsx'
 import DetalleProducto from './pages/Cliente/DetalleProducto.jsx'
 import { CarritoProvider } from './context/CarritoContext';
 import ProductosCat from './pages/Cliente/ProductosCat.jsx'
+import HistorialCompras from './pages/Cliente/HistorialCompras.jsx'
+import DetalleCompraCliente from './pages/Cliente/DetalleCompraCliente.jsx'
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -62,7 +64,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                 <Route path={home} element={<Home/>}/>
                 <Route path={detalleproducto} element={<DetalleProducto/>}/>
                 <Route path={productosCliente} element={<ProductosCat/>}/>
-
+                <Route path={historialcompras} element={<HistorialCompras/>}/>
+                <Route path={detallecompracliente} element={<DetalleCompraCliente/>}/>
               </Routes>
               </CarritoProvider>
       </DataProvider>

@@ -32,8 +32,11 @@ const registrar = (req, res) => {
 };
 
 const registrarDireccion = (req, res) => {
-    const { IdCliente, Provincia, Ciudad, CodigoPostal, Direccion } = req.body;
- 
+    let IdCliente = req.query.IdCliente; 
+    if (!IdCliente) {
+        IdCliente = req.Usuario?.IdCliente; 
+    }
+    const {Provincia, Ciudad, CodigoPostal, Direccion } = req.body;
     db.query(
         "CALL SP_RegistrarDireccion(?, ?, ?, ?, ?, ?, @Resultado, @Mensaje); SELECT @Resultado AS Resultado, @Mensaje AS Mensaje;",
         [IdCliente, Provincia, Ciudad, CodigoPostal, Direccion, 1],

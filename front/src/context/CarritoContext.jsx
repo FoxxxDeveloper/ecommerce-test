@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';  // Importar PropTypes
 export const CarritoContext = createContext();
 
 export const CarritoProvider = ({ children }) => {
+  
+  
   const [cart, setCart] = useState(() => {
     const carritoGuardado = localStorage.getItem('carrito');
     return carritoGuardado ? JSON.parse(carritoGuardado) : [];
@@ -28,13 +30,15 @@ export const CarritoProvider = ({ children }) => {
     });
   };
   
-
+  const vaciarCarrito = () => {
+    setCart([]); 
+  };
   const quitarDelCarrito = (productId) => {
     setCart((prevCart) => prevCart.filter((item) => item.IdProducto !== productId));
   };
 
   return (
-    <CarritoContext.Provider value={{ cart, agregarAlCarrito, quitarDelCarrito }}>
+    <CarritoContext.Provider value={{ cart, agregarAlCarrito, quitarDelCarrito,vaciarCarrito }}>
       {children}
     </CarritoContext.Provider>
   );

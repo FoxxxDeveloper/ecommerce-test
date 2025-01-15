@@ -2,12 +2,19 @@ const {db} =require("../db/db.js")
 const jwt = require('jsonwebtoken');
 
 const registrar = (req, res) => {
-    let { TipoEntrega,IdDireccion,IdUsuario, IdCliente, TipoDocumento, MontoPago, MontoCambio, MontoTotal, MetodoPago, IdSucursal, DetalleVenta } = req.body;
+    let { TipoEntrega,IdDireccion,IdUsuario, TipoDocumento, MontoPago, MontoCambio, MontoTotal, MetodoPago, IdSucursal, DetalleVenta } = req.body;
   
     let Estado= 0;
     let EstadoEntrega= 0;
 
-
+    let IdCliente = req.query.IdCliente; 
+    if (!IdCliente) {
+        IdCliente = req.Usuario?.IdCliente; 
+        IdUsuario = 1;
+        MontoPago=0;
+        MontoCambio=0;
+        IdSucursal=1;
+    }
 
     if(!req.Usuario.IdCliente){
      Estado = 1;
@@ -20,7 +27,7 @@ const registrar = (req, res) => {
         }
 
     }
-    console.log(Estado)
+    console.log(IdUsuario, TipoDocumento, IdCliente, MontoPago, MontoCambio, MontoTotal, MetodoPago,Estado, IdSucursal, JSON.stringify(DetalleVenta),IdDireccion, TipoEntrega,EstadoEntrega)
 
     // Validación de datos
     if (!TipoEntrega ||!IdUsuario || !IdCliente || !TipoDocumento || MontoPago === undefined || MontoCambio === undefined || MontoTotal === undefined || !MetodoPago || !IdSucursal || !DetalleVenta) {
@@ -38,7 +45,7 @@ const registrar = (req, res) => {
     }
 
     MontoPago === '' ? MontoPago = 0 : MontoPago = MontoPago;
-  
+    
     // Añadimos el SubTotal a cada ítem de DetalleVenta
     const detalleVentaConSubTotal = DetalleVenta.map(item => ({
         ...item,
@@ -49,7 +56,7 @@ const registrar = (req, res) => {
     db.query('CALL sp_RegistrarVenta(?, ?,?, ?, ?, ?, ?, ?, ?, ?,?,?,?, @p_Resultado, @p_Mensaje)',
       [IdUsuario, TipoDocumento, IdCliente, MontoPago, MontoCambio, MontoTotal, MetodoPago,Estado, IdSucursal, JSON.stringify(detalleVentaConSubTotal),IdDireccion, TipoEntrega,EstadoEntrega],
       (error, results, fields) => {
-          if (error) {
+          if (error) {  
               console.error('Error en el registro de la venta:', error);
               return res.status(500).send({
                   success: false,
@@ -268,6 +275,58 @@ const verDetalle = (req, res) => {
   };
   
   
+const Obtener = (req, res) => {
+    const  IdCliente  = req.Usuario?.IdCliente; 
+    if (!IdCliente) {
+        return res.status(400).send({ error: 'El IdCliente es requerido.'});
+    }
+    // Estados de una entre {0: Pendiente, 1:Preparando el pedido , 2: En camino, 3: Entregado, 4:Cancelado }
+
+    db.query(`
+      SELECT 
+    v.IdVenta,
+    v.NumeroDocumento,
+    v.FechaRegistro,
+    v.MontoTotal,
+    v.MetodoPago,
+    v.Estado,
+    e.TipoEntrega,
+    e.Estado AS EstadoEntrega,
+    JSON_ARRAYAGG(
+        JSON_OBJECT(
+            'NombreProducto', p.Nombre,
+            'Cantidad', dv.Cantidad,
+            'Precio', dv.PrecioVenta,
+            'Imagen',p.Foto
+        )
+    ) AS Productos
+FROM 
+    VENTA v
+JOIN 
+    DETALLE_VENTA dv ON v.IdVenta = dv.IdVenta
+JOIN 
+    PRODUCTO p ON dv.IdProducto = p.IdProducto
+LEFT JOIN 
+    ENTREGA e ON v.IdVenta = e.IdVenta
+WHERE 
+    v.IdCliente = ?
+GROUP BY 
+    v.IdVenta, v.NumeroDocumento, v.FechaRegistro, v.MontoTotal, v.MetodoPago, e.TipoEntrega, e.Estado
+ORDER BY 
+    v.FechaRegistro DESC;
+
+; 
+    `, [IdCliente], (error, results) => {
+        if (error) {
+            console.log(error);
+            return res.status(500).send({ error: 'Ocurrió un error en la consulta.' });
+        }
+        if (results.length === 0) {
+            return res.status(404).send({ message: 'No se encontraron compras para el usuario.' });
+        }
+        res.status(200).json(results);
+    });
+};
 
 
-module.exports = {eliminar,registrar,verDetalle, validarToken}
+module.exports = {eliminar,registrar,verDetalle,Obtener, validarToken}
